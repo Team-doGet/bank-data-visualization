@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="server:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/server_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="server/web/웹" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="server" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="projectlombok.lombok" />
+          <element id="library" level="project" name="fasterxml.jackson.core.databind" />
+          <element id="library" level="project" name="mybatis" />
+          <element id="library" level="project" name="ojdbc8-21.1.0.0" />
+          <element id="library" level="project" name="jsp-api" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
