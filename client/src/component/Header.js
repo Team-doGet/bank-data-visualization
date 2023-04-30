@@ -1,10 +1,13 @@
-import { Navbar, Container } from 'react-bootstrap';
+import { Navbar, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function AppHeader() {
   return (
-    <Navbar style={{ backgroundColor: '##7749F8' }} variant="dark" expand="lg">
+    <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">BankData</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          BankData
+        </Navbar.Brand>
       </Container>
     </Navbar>
   );
