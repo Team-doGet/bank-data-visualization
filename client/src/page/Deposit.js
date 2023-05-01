@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import Bar1 from '../component/Bar1';
+import BarGraph from '../component/BarGraph';
 import PeriodForm from '../component/PeriodForm';
 
 const Deposit = () => {
@@ -14,8 +14,8 @@ const Deposit = () => {
     <div>
       <h1>Deposit</h1>
       <PeriodForm term={term} setTerm={setTerm}></PeriodForm>
-      <Bar1 term={term} url="/api/Bar1test.json"></Bar1>
-      <Bar1 term={term} url="/api/Bar1test2.json"></Bar1>
+      <BarGraph term={term} url="/api/Bar1test.json"></BarGraph>
+      <BarGraph term={term} url="/api/Bar1test2.json"></BarGraph>
     </div>
   );
 };

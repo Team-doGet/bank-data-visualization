@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import PeriodForm from '../component/PeriodForm';
 
-import Bar2 from '../component/Bar2';
+import BarGraph from '../component/BarGraph';
 
 const Loan = () => {
   const [term, setTerm] = useState({
@@ -12,10 +12,12 @@ const Loan = () => {
   });
   return (
     <div>
-      <h1>loan</h1>
+      <h1>Loan</h1>
       <PeriodForm term={term} setTerm={setTerm}></PeriodForm>
-      <Bar2 term={term} url="/api/bar2.json"></Bar2>
-      <Bar2 term={term} url="/api/bar2_1.json"></Bar2>
+      <BarGraph term={term} url="/api/loan/customers/type.json"></BarGraph>
+      <BarGraph term={term} url="/api/loan/guarantee.json"></BarGraph>
+      <BarGraph term={term} url="/api/loan/period.json"></BarGraph>
+      <BarGraph term={term} url="/api/loan/interest.json"></BarGraph>
     </div>
   );
 };

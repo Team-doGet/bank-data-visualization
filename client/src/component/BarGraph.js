@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import { Row, Card, Container } from 'react-bootstrap';
 import ColorSet from '../ColorSet';
 
-const Bar2 = ({ term, url }) => {
+const BarGraph = ({ term, url }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [],
@@ -57,4 +57,4 @@ const Bar2 = ({ term, url }) => {
   );
 };
 
-export default Bar2;
+export default BarGraph;
