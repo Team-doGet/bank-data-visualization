@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
-import { Row, Card, Container } from "react-bootstrap";
-import moment from "moment";
-import PeriodForm from "../component/PeriodForm";
-import ColorSet from "../ColorSet";
+import React, { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import { Row, Card, Container } from 'react-bootstrap';
+import moment from 'moment';
+import PeriodForm from '../component/PeriodForm';
+import ColorSet from '../ColorSet';
 
 const Income = () => {
   const [term, setTerm] = useState({
-    start: moment().subtract(1, "month").format("YYYY-MM-DD"),
-    end: moment().format("YYYY-MM-DD"),
-    type: "monthly",
+    start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
+    end: moment().format('YYYY-MM-DD'),
+    type: 'monthly',
   });
   const [data, setData] = useState({
     labels: [],
@@ -27,7 +27,7 @@ const Income = () => {
         responsive: true,
         plugins: {
           legend: {
-            position: "right",
+            position: 'right',
           },
           title: {
             display: true,
