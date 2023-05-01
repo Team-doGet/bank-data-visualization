@@ -1,14 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import AppHeader from "./component/Header";
-import Navigation from "./component/Navigation";
-import Example from "./page/Example";
-import Home from "./page/Home";
-import Loan from "./page/Loan";
-import Financial from "./page/Financial";
-import Deposit from "./page/Deposit";
-import Income from "./page/Income";
-import Footer from "./component/Footer";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import AppHeader from './component/Header';
+import Navigation from './component/Navigation';
+import Example from './page/Example';
+import Home from './page/Home';
+import Loan from './page/Loan';
+import Financial from './page/Financial';
+import Deposit from './page/Deposit';
+import Income from './page/Income';
+import Footer from './component/Footer';
 
 const App = () => {
   return (
