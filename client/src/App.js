@@ -8,16 +8,17 @@ import Loan from "./page/Loan";
 import Financial from "./page/Financial";
 import Deposit from "./page/Deposit";
 import Income from "./page/Income";
+import Footer from "./component/Footer";
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="App wrapper">
       <BrowserRouter>
-        <AppHeader></AppHeader>
-        <Navigation></Navigation>
+        <AppHeader />
+        <Navigation />
         <Container>
           <Routes>
-            {/* <Route path="/" element={<Home />}></Route> */}
+            <Route path="/" element={<Home />}></Route>
             <Route path="/" element={<Example />}></Route>
             <Route path="/loan" element={<Loan />}></Route>
             <Route path="/deposit" element={<Deposit />}></Route>
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/financial" element={<Financial />}></Route>
           </Routes>
         </Container>
+        <Footer />
       </BrowserRouter>
     </div>
   );
