@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Row, Card, Container } from 'react-bootstrap';
-import moment from 'moment';
 import PeriodForm from '../component/PeriodForm';
 import ColorSet from '../ColorSet';
 
-const Income = () => {
+const Income = ({ baseDate }) => {
   const [term, setTerm] = useState({
-    start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD'),
-    type: 'monthly',
+    start: baseDate.min,
+    end: baseDate.max,
+    type: 'yearly',
   });
   const [data, setData] = useState({
     labels: [],
@@ -19,7 +18,7 @@ const Income = () => {
 
   const fetchData = async (term) => {
     try {
-      const url = `/api/test.json`; //?start=${term.start}&end=${term.end}&=type${term.type}`;
+      const url = `/api/income.json`; //?start=${term.start}&end=${term.end}&=type${term.type}`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -56,7 +55,9 @@ const Income = () => {
       <Row className="content-page mt-4">
         <h1 style={{ fontWeight: 600 }}>손익계산서</h1>
       </Row>
-      <PeriodForm term={term} setTerm={setTerm}></PeriodForm>
+      <div>{`${term.start}~${term.end}`}</div>
+      <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm}></PeriodForm>
+
       <Row className="mt-4">
         <Card>
           <Card.Body>
