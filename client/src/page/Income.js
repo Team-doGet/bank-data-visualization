@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Row, Card, Container } from 'react-bootstrap';
+import { Row, Card, Container, Col } from 'react-bootstrap';
 import PeriodForm from '../component/PeriodForm';
 import ColorSet from '../ColorSet';
 
@@ -53,10 +53,12 @@ const Income = ({ baseDate }) => {
   return (
     <Container fluid>
       <Row className="content-page mt-4">
-        <h1 style={{ fontWeight: 600 }}>손익계산서</h1>
+        <Col>
+          <h1 style={{ fontWeight: 600 }}>손익계산서</h1>
+          <h6 className="text-muted">{`${baseDate.min}~${baseDate.max}`}</h6>
+        </Col>
       </Row>
-      <div>{`${term.start}~${term.end}`}</div>
-      <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm}></PeriodForm>
+      <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
 
       <Row className="mt-4">
         <Card>
