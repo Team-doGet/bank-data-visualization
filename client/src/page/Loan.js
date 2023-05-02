@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import PeriodForm from '../component/PeriodForm';
 
-import Bar2 from '../component/Bar2';
+import BubbleGraph from '../component/BubbleGraph';
+import BarGraph from '../component/BarGraph';
+import { Row, Col, Container } from 'react-bootstrap';
 
 const Loan = () => {
   const [term, setTerm] = useState({
@@ -11,12 +13,30 @@ const Loan = () => {
     type: 'monthly',
   });
   return (
-    <div>
-      <h1>loan</h1>
+    <Container fluid>
+      <Row className="content-page mt-4">
+        <h1 style={{ fontWeight: 600 }}>loan</h1>
+      </Row>
       <PeriodForm term={term} setTerm={setTerm}></PeriodForm>
-      <Bar2 term={term} url="/api/bar2.json"></Bar2>
-      <Bar2 term={term} url="/api/bar2_1.json"></Bar2>
-    </div>
+      <Row>
+        <Col>
+          <BarGraph term={term} url="/api/loan/guarantee.json" xLabel={'년도'} yLabel={'인원 수'}></BarGraph>
+        </Col>
+        <Col>
+          <BarGraph term={term} url="/api/loan/customers/type.json" xLabel={'년도'} yLabel={'인원 수'}></BarGraph>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BarGraph term={term} url="/api/loan/period.json" xLabel={'기간'} yLabel={'인원 수'}></BarGraph>
+        </Col>
+        <Col>
+          <BarGraph term={term} url="/api/loan/interest.json" xLabel={'이자'} yLabel={'인원 수'}></BarGraph>
+        </Col>
+      </Row>
+
+      <BubbleGraph term={term} url="/api/loan/customers/region.json" xLabel={'지역'} yLabel={'인원 수'}></BubbleGraph>
+    </Container>
   );
 };
 

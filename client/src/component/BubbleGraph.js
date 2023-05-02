@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bubble } from 'react-chartjs-2';
 import { Row, Card, Container } from 'react-bootstrap';
 import ColorSet from '../ColorSet';
 
-const Bar2 = ({ term, url }) => {
+const BubbleGraph = ({ term, url, xLabel, yLabel }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [],
@@ -24,6 +24,20 @@ const Bar2 = ({ term, url }) => {
           title: {
             display: true,
             text: data.title,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: xLabel,
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: yLabel,
+            },
           },
         },
       });
@@ -49,7 +63,7 @@ const Bar2 = ({ term, url }) => {
       <Row className="mt-4">
         <Card>
           <Card.Body>
-            <Bar options={options} data={data} />
+            <Bubble options={options} data={data} />
           </Card.Body>
         </Card>
       </Row>
@@ -57,4 +71,4 @@ const Bar2 = ({ term, url }) => {
   );
 };
 
-export default Bar2;
+export default BubbleGraph;

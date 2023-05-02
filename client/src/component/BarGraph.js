@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Row, Card } from 'react-bootstrap';
+import { Row, Card, Container } from 'react-bootstrap';
 import ColorSet from '../ColorSet';
 
-const Bar1 = ({ term, url }) => {
+const BarGraph = ({ term, url, xLabel, yLabel }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [],
@@ -26,6 +26,20 @@ const Bar1 = ({ term, url }) => {
             text: data.title,
           },
         },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: xLabel,
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: yLabel,
+            },
+          },
+        },
       });
       setData({
         labels: data.labels,
@@ -42,8 +56,10 @@ const Bar1 = ({ term, url }) => {
   useEffect(() => {
     fetchData(term);
   });
+
   return (
-    <div>
+    <Container fluid>
+      <Row className="content-page mt-4"></Row>
       <Row className="mt-4">
         <Card>
           <Card.Body>
@@ -51,8 +67,8 @@ const Bar1 = ({ term, url }) => {
           </Card.Body>
         </Card>
       </Row>
-    </div>
+    </Container>
   );
 };
 
-export default Bar1;
+export default BarGraph;
