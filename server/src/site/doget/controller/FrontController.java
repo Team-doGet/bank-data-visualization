@@ -19,8 +19,7 @@ public class FrontController extends HttpServlet {
     private final Map<String, Controller> controllerMap = new HashMap<>();
 
     public FrontController() {
-        controllerMap.put("/banks", new BankController());
-
+        controllerMap.put("/income", new IncomeController());
     }
 
     @Override

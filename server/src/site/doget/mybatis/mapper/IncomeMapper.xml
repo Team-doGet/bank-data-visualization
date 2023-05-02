@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="site.doget.mybatis.mapper.IncomeMapper">
+    <resultMap id="IncomeResultMap" type="site.doget.dto.PlosdocDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="C40000000" column="C40000000"/>
+        <result property="C41000000" column="C41000000"/>
+        <result property="C42000000" column="C42000000"/>
+        <result property="C43000000" column="C43000000"/>
+        <result property="C45000000" column="C45000000"/>
+        <result property="C47000000" column="C47000000"/>
+        <result property="C48000000" column="C48000000"/>
+        <result property="C55000000" column="C55000000"/>
+        <result property="C57000000" column="C57000000"/>
+        <result property="C58000000" column="C58000000"/>
+        <result property="C60000000" column="C60000000"/>
+        <result property="C61000000" column="C61000000"/>
+        <result property="C62000000" column="C62000000"/>
+        <result property="C63000000" column="C63000000"/>
+        <result property="C65000000" column="C65000000"/>
+        <result property="C66000000" column="C66000000"/>
+        <result property="C67000000" column="C67000000"/>
+        <result property="C77000000" column="C77000000"/>
+        <result property="C78000000" column="C78000000"/>
+    </resultMap>
+
+    <select id="findByTermAndBankCode" resultMap="IncomeResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">
+            TO_CHAR(base_ym, 'yyyy') AS base_ym,
+        </if>
+        <if test="term == 'quarterly'">
+            TO_CHAR(base_ym, 'yyyy-q') AS base_ym,
+        </if>
+        <if test="term == 'monthly'">
+            TO_CHAR(base_ym, 'yyyy-mm') AS base_ym,
+        </if>
+        SUM(C40000000) AS C40000000, SUM(C41000000) AS C41000000, SUM(C42000000) AS C42000000, SUM(C43000000) AS C43000000, SUM(C45000000) AS C45000000, SUM(C47000000) AS C47000000, SUM(C48000000) AS C48000000, SUM(C55000000) AS C55000000, SUM(C57000000) AS C57000000, SUM(C58000000) AS C58000000, SUM(C60000000) AS C60000000, SUM(C61000000) AS C61000000, SUM(C62000000) AS C62000000, SUM(C63000000) AS C63000000, SUM(C65000000) AS C65000000, SUM(C66000000) AS C66000000, SUM(C67000000) AS C67000000, SUM(C77000000) AS C77000000, SUM(C78000000) AS C78000000
+        FROM plosdoc_table
+        WHERE bank_code = #{bankCode} AND base_ym BETWEEN TO_DATE(#{stDate}) AND TO_DATE(#{endDate})
+        GROUP BY <if test="term == 'yearly'">
+            TO_CHAR(base_ym, 'yyyy')
+        </if>
+        <if test="term == 'quarterly'">
+            TO_CHAR(base_ym, 'yyyy-q')
+        </if>
+        <if test="term == 'monthly'">
+            TO_CHAR(base_ym, 'yyyy-mm')
+        </if>
+        ORDER BY base_ym
+    </select>
+
+</mapper>
