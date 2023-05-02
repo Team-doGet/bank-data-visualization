@@ -3,17 +3,16 @@ import moment from 'moment';
 import BarGraph from '../component/BarGraph';
 import PeriodForm from '../component/PeriodForm';
 
-const Deposit = () => {
+const Deposit = ({ baseDate }) => {
   const [term, setTerm] = useState({
-    start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD'),
-    type: 'monthly',
+    start: baseDate.min,
+    end: baseDate.max,
+    type: 'yearly',
   });
-
   return (
     <div>
       <h1>Deposit</h1>
-      <PeriodForm term={term} setTerm={setTerm}></PeriodForm>
+      <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
       <BarGraph term={term} url="/api/Bar1test.json"></BarGraph>
       <BarGraph term={term} url="/api/Bar1test2.json"></BarGraph>
     </div>

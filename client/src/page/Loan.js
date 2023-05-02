@@ -5,16 +5,16 @@ import BubbleGraph from '../component/BubbleGraph';
 import BarGraph from '../component/BarGraph';
 import { Col, Row } from 'react-bootstrap';
 
-const Loan = () => {
+const Loan = ({ baseDate }) => {
   const [term, setTerm] = useState({
-    start: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    end: moment().format('YYYY-MM-DD'),
-    type: 'monthly',
+    start: baseDate.min,
+    end: baseDate.max,
+    type: 'yearly',
   });
   return (
     <div>
       <h1>Loan</h1>
-      <PeriodForm term={term} setTerm={setTerm}></PeriodForm>
+      <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
       <Row>
         <Col>
           <BarGraph term={term} url="/api/loan/guarantee.json" xLabel={'년도'} yLabel={'인원 수'}></BarGraph>
