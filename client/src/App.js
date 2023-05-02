@@ -43,7 +43,7 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/" element={<Example />}></Route>
+            <Route path="/example" element={<Example />}></Route>
             <Route path="/loan" element={<Loan baseDate={bankInfo.loanDate} />}></Route>
             <Route path="/deposit" element={<Deposit baseDate={bankInfo.depositDate} />}></Route>
             <Route path="/income" element={<Income baseDate={bankInfo.incomeDate} />}></Route>
