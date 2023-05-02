@@ -7,7 +7,7 @@ import site.doget.dto.IncomeDto;
 import site.doget.dto.IncomeListDto;
 import site.doget.dto.PlosdocDto;
 import site.doget.mybatis.mapper.IncomeMapper;
-import site.doget.repository.SqlSessionFactoryProvider;
+import site.doget.mybatis.SqlSessionFactoryProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package site.doget.repository;
+package site.doget.mybatis;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
