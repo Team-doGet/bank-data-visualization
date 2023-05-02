@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import { Row, Card, Container } from 'react-bootstrap';
 import ColorSet from '../ColorSet';
 
-const BarGraph = ({ term, url, xLabel, yLabel }) => {
+const BarGraph = ({ term, url }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [],
@@ -24,20 +24,6 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
           title: {
             display: true,
             text: data.title,
-          },
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: xLabel,
-            },
-          },
-          y: {
-            title: {
-              display: true,
-              text: yLabel,
-            },
           },
         },
       });
