@@ -4,13 +4,13 @@ import site.doget.common.ValidationResult;
 
 import java.util.regex.Pattern;
 
-public class IncomeReqDto {
+public class BankReqDto {
     private final String bankCode;
     private final String term;
     private final String stDate;
     private final String endDate;
 
-    public IncomeReqDto(String bankCode, String term, String stDate, String endDate) {
+    public BankReqDto(String bankCode, String term, String stDate, String endDate) {
         this.bankCode = bankCode;
         this.term = term;
         this.stDate = stDate;

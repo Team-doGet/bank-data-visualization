@@ -5,7 +5,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.common.CodeMapper;
 import site.doget.dto.IncomeResDto;
 import site.doget.dto.IncomeListResDto;
-import site.doget.dto.IncomeReqDto;
+import site.doget.dto.BankReqDto;
 import site.doget.dto.PlosdocRawDto;
 import site.doget.mybatis.mapper.IncomeMapper;
 import site.doget.mybatis.SqlSessionFactoryProvider;
@@ -27,11 +27,11 @@ public class IncomeService {
 
     private final SqlSessionFactory sqlSessionFactory = SqlSessionFactoryProvider.getInstance();
 
-    public IncomeListResDto findByTermAndBankCode(IncomeReqDto incomeReqDto) {
+    public IncomeListResDto findByTermAndBankCode(BankReqDto bankReqDto) {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             IncomeMapper incomeMapper = sqlSession.getMapper(IncomeMapper.class);
-            List<PlosdocRawDto> plosdocRawDtoList = incomeMapper.findByTermAndBankCode(incomeReqDto);
+            List<PlosdocRawDto> plosdocRawDtoList = incomeMapper.findByTermAndBankCode(bankReqDto);
 
 
             // IncomeListDto
