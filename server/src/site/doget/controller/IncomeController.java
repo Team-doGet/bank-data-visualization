@@ -1,7 +1,9 @@
 package site.doget.controller;
 
 import site.doget.common.ApiResponse;
-import site.doget.dto.IncomeListDto;
+import site.doget.common.ValidationResult;
+import site.doget.dto.IncomeListResDto;
+import site.doget.dto.IncomeReqDto;
 import site.doget.service.IncomeService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +15,17 @@ public class IncomeController implements Controller {
     @Override
     public ApiResponse<?> process(Map<String, String> paramMap) {
 
-        IncomeListDto incomeListDto = incomeService.findByTermAndBankCode(paramMap);
+        IncomeReqDto incomeReqDto = new IncomeReqDto(paramMap.get("bankCode"), paramMap.get("term"),
+                paramMap.get("stDate"), paramMap.get("endDate"));
 
-        return new ApiResponse<>(HttpServletResponse.SC_OK, incomeListDto);
+        ValidationResult validationResult = incomeReqDto.validate();
+
+        if (!validationResult.isValid()) {
+            return new ApiResponse<>(HttpServletResponse.SC_BAD_REQUEST, validationResult.getErrorMessage());
+        }
+
+        IncomeListResDto incomeListResDto = incomeService.findByTermAndBankCode(incomeReqDto);
+
+        return new ApiResponse<>(HttpServletResponse.SC_OK, incomeListResDto);
     }
 }

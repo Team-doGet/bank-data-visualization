@@ -3,16 +3,16 @@ package site.doget.service;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.common.CodeMapper;
-import site.doget.dto.IncomeDto;
-import site.doget.dto.IncomeListDto;
-import site.doget.dto.PlosdocDto;
+import site.doget.dto.IncomeResDto;
+import site.doget.dto.IncomeListResDto;
+import site.doget.dto.IncomeReqDto;
+import site.doget.dto.PlosdocRawDto;
 import site.doget.mybatis.mapper.IncomeMapper;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class IncomeService {
 
@@ -27,34 +27,34 @@ public class IncomeService {
 
     private final SqlSessionFactory sqlSessionFactory = SqlSessionFactoryProvider.getInstance();
 
-    public IncomeListDto findByTermAndBankCode(Map<String, String> paramMap) {
+    public IncomeListResDto findByTermAndBankCode(IncomeReqDto incomeReqDto) {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             IncomeMapper incomeMapper = sqlSession.getMapper(IncomeMapper.class);
-            List<PlosdocDto> plosdocDtoList = incomeMapper.findByTermAndBankCode(paramMap);
+            List<PlosdocRawDto> plosdocRawDtoList = incomeMapper.findByTermAndBankCode(incomeReqDto);
 
 
             // IncomeListDto
             List<String> date = new ArrayList<>();
-            List<IncomeDto> datasets = new ArrayList<>();
+            List<IncomeResDto> datasets = new ArrayList<>();
 
             // IncomeDto List 객체 생성
             String[] codes = CodeMapper.incomeMap.keySet().toArray(new String[0]);
             Arrays.sort(codes);
 
             for (String code : codes) {
-                datasets.add(new IncomeDto(code, CodeMapper.incomeMap.get(code), new ArrayList<>()));
+                datasets.add(new IncomeResDto(code, CodeMapper.incomeMap.get(code), new ArrayList<>()));
             }
 
             // datasets 추가
-            for (PlosdocDto plosdocDto : plosdocDtoList) {
-                date.add(plosdocDto.getBaseYm());
+            for (PlosdocRawDto plosdocRawDto : plosdocRawDtoList) {
+                date.add(plosdocRawDto.getBaseYm());
                 for (int i = 0; i < codes.length; i++) {
-                    datasets.get(i).getData().add(plosdocDto.getValueByCode(codes[i]));
+                    datasets.get(i).getData().add(plosdocRawDto.getValueByCode(codes[i]));
                 }
             }
 
-            return new IncomeListDto(date, datasets);
+            return new IncomeListResDto(date, datasets);
         }
     }
 
