@@ -9,7 +9,6 @@ import Financial from './page/Financial';
 import Deposit from './page/Deposit';
 import Income from './page/Income';
 import Footer from './component/Footer';
-import { useEffect, useState } from 'react';
 
 const App = () => {
   const [bankInfo, setBankInfo] = useState({
@@ -43,11 +42,11 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/example" element={<Example />}></Route>
-            <Route path="/loan" element={<Loan baseDate={bankInfo.loanDate} />}></Route>
-            <Route path="/deposit" element={<Deposit baseDate={bankInfo.depositDate} />}></Route>
-            <Route path="/income" element={<Income baseDate={bankInfo.incomeDate} />}></Route>
-            <Route path="/financial" element={<Financial baseDate={bankInfo.financialDate} />}></Route>
+            <Route path="/" element={<Example />}></Route>
+            <Route path="/loan" element={<Loan />}></Route>
+            <Route path="/deposit" element={<Deposit />}></Route>
+            <Route path="/income" element={<Income />}></Route>
+            <Route path="/financial" element={<Financial />}></Route>
           </Routes>
         </Container>
         <Footer />
