@@ -4,12 +4,12 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class IncomeListDto {
+public class IncomeListResDto {
 
     private List<String> date;
-    private List<IncomeDto> datasets;
+    private List<IncomeResDto> datasets;
 
-    public IncomeListDto(List<String> date, List<IncomeDto> datasets) {
+    public IncomeListResDto(List<String> date, List<IncomeResDto> datasets) {
         this.date = date;
         this.datasets = datasets;
     }

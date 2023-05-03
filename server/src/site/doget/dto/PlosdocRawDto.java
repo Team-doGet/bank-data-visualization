@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PlosdocDto {
+public class PlosdocRawDto {
 
     private String baseYm;
     private String C40000000;
