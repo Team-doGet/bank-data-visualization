@@ -8,7 +8,7 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
     labels: [],
     datasets: [],
   });
-  const [options, setOptions] = useState({});
+  const [options, setOptions] = useState({ plugins: { title: { text: '' } } });
 
   const fetchData = async (term) => {
     try {
@@ -22,7 +22,7 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
             position: 'right',
           },
           title: {
-            display: true,
+            display: false,
             text: data.title,
           },
         },
@@ -62,6 +62,11 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
       <Row className="content-page mt-4"></Row>
       <Row className="mt-4">
         <Card>
+          <Card.Header style={{ backgroundColor: '#fff' }}>
+            <h3 className="mt-2" style={{ fontWeight: 600 }}>
+              {options.plugins.title.text || ''}
+            </h3>
+          </Card.Header>
           <Card.Body>
             <Bar options={options} data={data} />
           </Card.Body>

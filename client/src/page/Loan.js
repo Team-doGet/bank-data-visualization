@@ -36,12 +36,27 @@ const Loan = ({ baseDate }) => {
         <Col>
           <BarGraph term={term} url="/api/loan/interest.json" xLabel={'이자'} yLabel={'인원 수'}></BarGraph>
         </Col>
-        <MultiGraph term={term} url="/api/loan/customers/amount.json" xLabel={'금액'} yLabel={'인원 수'}></MultiGraph>
-
-        <LineGraph term={term} url="/api/loan/stats.json" xLabel={'통계'} yLabel={'금액'}></LineGraph>
       </Row>
-
-      <BubbleGraph term={term} url="/api/loan/customers/region.json" xLabel={'지역'} yLabel={'인원 수'}></BubbleGraph>
+      <Row>
+        <Col>
+          <MultiGraph term={term} url="/api/loan/customers/amount.json" xLabel={'금액'} yLabel={'인원 수'}></MultiGraph>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <LineGraph term={term} url="/api/loan/stats.json" xLabel={'통계'} yLabel={'금액'}></LineGraph>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BubbleGraph
+            term={term}
+            url="/api/loan/customers/region.json"
+            xLabel={'지역'}
+            yLabel={'인원 수'}
+          ></BubbleGraph>
+        </Col>
+      </Row>
     </Container>
   );
 };

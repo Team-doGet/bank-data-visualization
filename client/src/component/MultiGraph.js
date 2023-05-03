@@ -8,7 +8,7 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
     labels: [],
     datasets: [],
   });
-  const [options, setOptions] = useState({});
+  const [options, setOptions] = useState({ plugins: { title: { text: '' } } });
 
   const fetchData = async (term) => {
     try {
@@ -22,40 +22,39 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
             position: 'right',
           },
           title: {
-            display: true,
+            display: false,
             text: data.title,
           },
         },
-        options: {
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: xLabel,
-              },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: xLabel,
             },
-            'y-left': {
-              id: 'y-axis-1',
-              position: 'left',
-
-              title: {
-                display: true,
-                text: yLabel1,
-              },
-              ticks: {
-                beginAtZero: true,
-              },
+          },
+          y: {
+            id: 'y',
+            position: 'left',
+            title: {
+              display: true,
+              text: yLabel1,
             },
-            'y-right': {
-              position: 'right',
-              id: 'y-axis-2',
-              title: {
-                display: true,
-                text: yLabel2,
-              },
-              ticks: {
-                beginAtZero: true,
-              },
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            id: 'y1',
+            title: {
+              display: true,
+              text: yLabel2,
+            },
+            grid: {
+              drawOnChartArea: false,
             },
           },
         },
@@ -68,12 +67,13 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
               return {
                 ...e,
                 ...ColorSet[i],
-                yAxisID: 'y-left',
+                yAxisID: 'y',
               };
             }
             return {
               ...e,
               ...ColorSet[i],
+              yAxisID: 'y',
             };
           } else {
             const temp = [0];
@@ -86,13 +86,14 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
                 ...e,
                 data: temp,
                 ...ColorSet[i],
+                yAxisID: 'y1',
               };
             } else {
               return {
                 ...e,
                 data: temp,
                 ...ColorSet[i],
-                // yAxisID: 'y-right',
+                yAxisID: 'y1',
               };
             }
           }
@@ -112,6 +113,11 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
       <Row className="content-page mt-4"></Row>
       <Row className="mt-4">
         <Card>
+          <Card.Header style={{ backgroundColor: '#fff' }}>
+            <h3 className="mt-2" style={{ fontWeight: 600 }}>
+              {options.plugins.title.text || ''}
+            </h3>
+          </Card.Header>
           <Card.Body>
             <Chart type="bar" options={options} data={data} />
           </Card.Body>
