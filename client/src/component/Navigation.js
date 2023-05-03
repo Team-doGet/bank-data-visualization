@@ -4,27 +4,24 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
 function Navigation() {
+  const fontStyle = { fontSize: '1.2rem' };
+  const menu = [
+    { title: 'Loan', to: '/loan' },
+    { title: 'Deposit', to: '/deposit' },
+    { title: 'IncomeStatement', to: '/income' },
+    { title: 'FinancialStatement', to: '/financial' },
+  ];
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          홈
-        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/loan">
-              대출
-            </Nav.Link>
-            <Nav.Link as={Link} to="/deposit">
-              예금
-            </Nav.Link>
-            <Nav.Link as={Link} to="/income">
-              손익계산서
-            </Nav.Link>
-            <Nav.Link as={Link} to="/financial">
-              제무상태표
-            </Nav.Link>
+            {menu.map((e) => (
+              <Nav.Link as={Link} to={e.to} style={fontStyle}>
+                {e.title}
+              </Nav.Link>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>

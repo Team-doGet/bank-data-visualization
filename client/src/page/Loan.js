@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PeriodForm from '../component/PeriodForm';
-
 import BubbleGraph from '../component/BubbleGraph';
 import BarGraph from '../component/BarGraph';
 import LineGraph from '../component/LineGraph';
@@ -16,7 +15,10 @@ const Loan = ({ baseDate }) => {
   return (
     <Container fluid>
       <Row className="content-page mt-4">
-        <h1 style={{ fontWeight: 600 }}>loan</h1>
+        <Col>
+          <h1 style={{ fontWeight: 600 }}>LOAN</h1>
+          <h6 className="text-muted">{`${baseDate.min}~${baseDate.max}`}</h6>
+        </Col>
       </Row>
       <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
       <Row>

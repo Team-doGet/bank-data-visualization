@@ -13,6 +13,7 @@ const Deposit = ({ baseDate }) => {
     <Container fluid>
       <Row className="content-page mt-4">
         <h1 style={{ fontWeight: 600 }}>Deposit</h1>
+        <h6 className="text-muted">{`${baseDate.min}~${baseDate.max}`}</h6>
       </Row>
       <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
       <BarGraph term={term} url="/api/Bar1test.json"></BarGraph>

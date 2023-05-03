@@ -54,7 +54,7 @@ const Income = ({ baseDate }) => {
     <Container fluid>
       <Row className="content-page mt-4">
         <Col>
-          <h1 style={{ fontWeight: 600 }}>손익계산서</h1>
+          <h1 style={{ fontWeight: 600 }}>IncomeStatement</h1>
           <h6 className="text-muted">{`${baseDate.min}~${baseDate.max}`}</h6>
         </Col>
       </Row>
