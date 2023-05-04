@@ -10,13 +10,12 @@ import java.util.List;
 @Getter
 public class CustTypeCompListResDto {
 
-    private String title;
-    private List<String> labels;
+    private String title = "개인-법인 비교";
+    private List<String> dates;
     private List<CustTypeCompResDto> datasets;
 
-    public CustTypeCompListResDto(String title, List<String> labels, List<CustTypeCompResDto> datasets) {
-        this.title = title;
-        this.labels = labels;
+    public CustTypeCompListResDto(List<String> dates, List<CustTypeCompResDto> datasets) {
+        this.dates = dates;
         this.datasets = datasets;
     }
 }

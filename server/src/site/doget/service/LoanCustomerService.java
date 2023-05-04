@@ -2,13 +2,11 @@ package site.doget.service;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import site.doget.common.CodeMapper;
 import site.doget.dto.*;
 import site.doget.mybatis.SqlSessionFactoryProvider;
-import site.doget.mybatis.mapper.IncomeMapper;
+import site.doget.mybatis.mapper.LoanCustomerMapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LoanCustomerService {
@@ -28,11 +26,28 @@ public class LoanCustomerService {
     public CustTypeCompListResDto findLoanByCustomerType(BankReqDto bankReqDto) {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            IncomeMapper incomeMapper = sqlSession.getMapper(IncomeMapper.class);
-            List<PlosdocRawDto> plosdocRawDtoList = incomeMapper.findByTermAndBankCode(bankReqDto);
+            LoanCustomerMapper loanCustomerMapper = sqlSession.getMapper(LoanCustomerMapper.class);
+            List<CustTypeRawDto> custTypeRawDtoList = loanCustomerMapper.findLoanByCustomerType(bankReqDto);
 
+            // CustTypeCompListResDto
+            List<String> dates = new ArrayList<>();
+            List<List<String>> data = new ArrayList<>();
+            data.add(new ArrayList<>());
+            data.add(new ArrayList<>());
 
-            return new CustTypeCompListResDto(null, null, null);
+            // datasets 추가
+            custTypeRawDtoList.forEach(custTypeRawDto -> {
+                if (!dates.contains(custTypeRawDto.getNewDt())) {
+                    dates.add(custTypeRawDto.getNewDt());
+                }
+                int dataIndex = "개인".equals(custTypeRawDto.getCustDscdNm()) ? 0 : 1;
+                data.get(dataIndex).add(custTypeRawDto.getCount());
+            });
+
+            List<CustTypeCompResDto> datasets = new ArrayList<>();
+            datasets.add(new CustTypeCompResDto("개인", data.get(0)));
+            datasets.add(new CustTypeCompResDto("법인", data.get(1)));
+            return new CustTypeCompListResDto(dates, datasets);
         }
 
     }

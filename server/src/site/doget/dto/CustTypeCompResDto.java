@@ -9,4 +9,9 @@ public class CustTypeCompResDto {
 
     private String label;
     private List<String> data;
+
+    public CustTypeCompResDto(String label, List<String> data) {
+        this.label = label;
+        this.data = data;
+    }
 }

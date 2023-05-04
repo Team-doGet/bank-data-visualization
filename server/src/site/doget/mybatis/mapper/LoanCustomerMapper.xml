@@ -2,12 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="site.doget.mybatis.mapper.LoanCustomerMapper">
-    <resultMap id="LoanCustomerResultMap" type="site.doget.dto.PlosdocRawDto">
+    <resultMap id="LoanCustomerResultMap" type="site.doget.dto.CustTypeRawDto">
 
+        <result property="newDt" column="new_dt"/>
+        <result property="custDscdNm" column="cust_dscd_nm"/>
+        <result property="count" column="count"/>
     </resultMap>
 
     <select id="findLoanByCustomerType" resultMap="LoanCustomerResultMap" parameterType="map">
-
+        SELECT
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS new_dt,</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS new_dt,</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm') AS new_dt,</if>
+        cust_dscd_nm, COUNT(*) AS count
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy'),</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q'),</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm'),</if>
+        cust_dscd_nm
+        ORDER BY new_dt
     </select>
+
 
 </mapper>
