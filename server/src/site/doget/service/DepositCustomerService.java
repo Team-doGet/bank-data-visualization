@@ -3,8 +3,8 @@ package site.doget.service;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.dto.BankReqDto;
-import site.doget.dto.CustomerCountListResDto;
-import site.doget.dto.CustomerCountResDto;
+import site.doget.dto.CustomerCountListByTypeResDto;
+import site.doget.dto.CustomerCountByTypeResDto;
 import site.doget.dto.CustTypeRawDto;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 import site.doget.mybatis.mapper.DepositCustomerMapper;
@@ -26,7 +26,7 @@ public class DepositCustomerService {
     private final SqlSessionFactory sqlSessionFactory = SqlSessionFactoryProvider.getInstance();
 
     // 고객 종류별 비교 조회
-    public CustomerCountListResDto findDepositByCustomerType(BankReqDto bankReqDto) {
+    public CustomerCountListByTypeResDto findDepositByCustomerType(BankReqDto bankReqDto) {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             DepositCustomerMapper depositCustomerMapper = sqlSession.getMapper(DepositCustomerMapper.class);
@@ -47,10 +47,10 @@ public class DepositCustomerService {
                 data.get(dataIndex).add(custTypeRawDto.getCount());
             });
 
-            List<CustomerCountResDto> datasets = new ArrayList<>();
-            datasets.add(new CustomerCountResDto("개인", data.get(0)));
-            datasets.add(new CustomerCountResDto("법인", data.get(1)));
-            return new CustomerCountListResDto(dates, datasets);
+            List<CustomerCountByTypeResDto> datasets = new ArrayList<>();
+            datasets.add(new CustomerCountByTypeResDto("개인", data.get(0)));
+            datasets.add(new CustomerCountByTypeResDto("법인", data.get(1)));
+            return new CustomerCountListByTypeResDto(dates, datasets);
         }
 
     }

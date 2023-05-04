@@ -6,12 +6,12 @@ import java.util.List;
 
 
 @Getter
-public class CustomerCountListResDto {
+public class CustomerCountListByTypeResDto {
 
     private List<String> dates;
-    private List<CustomerCountResDto> datasets;
+    private List<CustomerCountByTypeResDto> datasets;
 
-    public CustomerCountListResDto(List<String> dates, List<CustomerCountResDto> datasets) {
+    public CustomerCountListByTypeResDto(List<String> dates, List<CustomerCountByTypeResDto> datasets) {
         this.dates = dates;
         this.datasets = datasets;
     }
