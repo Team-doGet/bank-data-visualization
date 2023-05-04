@@ -34,11 +34,11 @@ public class IncomeService {
             List<PlosdocRawDto> plosdocRawDtoList = incomeMapper.findByTermAndBankCode(bankReqDto);
 
 
-            // IncomeListDto
-            List<String> date = new ArrayList<>();
+            // IncomeListResDto
+            List<String> labels = new ArrayList<>();
             List<IncomeResDto> datasets = new ArrayList<>();
 
-            // IncomeDto List 객체 생성
+            // IncomeResDto List 객체 생성
             String[] codes = CodeMapper.incomeMap.keySet().toArray(new String[0]);
             Arrays.sort(codes);
 
@@ -48,13 +48,13 @@ public class IncomeService {
 
             // datasets 추가
             for (PlosdocRawDto plosdocRawDto : plosdocRawDtoList) {
-                date.add(plosdocRawDto.getBaseYm());
+                labels.add(plosdocRawDto.getBaseYm());
                 for (int i = 0; i < codes.length; i++) {
                     datasets.get(i).getData().add(plosdocRawDto.getValueByCode(codes[i]));
                 }
             }
 
-            return new IncomeListResDto(date, datasets);
+            return new IncomeListResDto(labels, datasets);
         }
     }
 

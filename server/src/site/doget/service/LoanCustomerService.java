@@ -32,16 +32,16 @@ public class LoanCustomerService {
             LoanCustomerMapper loanCustomerMapper = sqlSession.getMapper(LoanCustomerMapper.class);
             List<CustomerCountByTypeRawDto> customerCountByTypeRawDtoList = loanCustomerMapper.findLoanByCustomerType(bankReqDto);
 
-            // CustTypeCompListResDto
-            List<String> dates = new ArrayList<>();
+            // CustomerCountListByTypeResDto
+            List<String> labels = new ArrayList<>();
             List<List<String>> data = new ArrayList<>();
             data.add(new ArrayList<>());
             data.add(new ArrayList<>());
 
             // datasets 추가
             customerCountByTypeRawDtoList.forEach(customerCountByTypeRawDto -> {
-                if (!dates.contains(customerCountByTypeRawDto.getNewDt())) {
-                    dates.add(customerCountByTypeRawDto.getNewDt());
+                if (!labels.contains(customerCountByTypeRawDto.getNewDt())) {
+                    labels.add(customerCountByTypeRawDto.getNewDt());
                 }
                 int dataIndex = "개인".equals(customerCountByTypeRawDto.getCustDscdNm()) ? 0 : 1;
                 data.get(dataIndex).add(customerCountByTypeRawDto.getCount());
@@ -50,7 +50,7 @@ public class LoanCustomerService {
             List<CustomerCountByTypeResDto> datasets = new ArrayList<>();
             datasets.add(new CustomerCountByTypeResDto("개인", data.get(0)));
             datasets.add(new CustomerCountByTypeResDto("법인", data.get(1)));
-            return new CustomerCountListByTypeResDto(dates, datasets);
+            return new CustomerCountListByTypeResDto(labels, datasets);
         }
 
     }

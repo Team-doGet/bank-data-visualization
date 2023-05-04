@@ -6,11 +6,11 @@ import java.util.List;
 @Getter
 public class IncomeListResDto {
 
-    private List<String> date;
+    private List<String> labels;
     private List<IncomeResDto> datasets;
 
-    public IncomeListResDto(List<String> date, List<IncomeResDto> datasets) {
-        this.date = date;
+    public IncomeListResDto(List<String> labels, List<IncomeResDto> datasets) {
+        this.labels = labels;
         this.datasets = datasets;
     }
 }

@@ -8,11 +8,11 @@ import java.util.List;
 @Getter
 public class CustomerCountListByAmountResDto {
 
-    private List<String> dates;
+    private List<String> labels;
     private List<CustomerCountByAmountResDto> datasets;
 
-    public CustomerCountListByAmountResDto(List<String> dates, List<CustomerCountByAmountResDto> datasets) {
-        this.dates = dates;
+    public CustomerCountListByAmountResDto(List<String> labels, List<CustomerCountByAmountResDto> datasets) {
+        this.labels = labels;
         this.datasets = datasets;
     }
 }
