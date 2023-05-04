@@ -2,13 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="site.doget.mybatis.mapper.DepositCustomerMapper">
-    <resultMap id="DepositCustomerResultMap" type="site.doget.dto.CustTypeRawDto">
+    <resultMap id="CustomerCountByTypeResultMap" type="site.doget.dto.raw.CustomerCountByTypeRawDto">
         <result property="newDt" column="new_dt"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
         <result property="count" column="count"/>
     </resultMap>
+    <resultMap id="CustomerCountByAmountResultMap" type="site.doget.dto.raw.CustomerCountByAmountRawDto">
+        <result property="range" column="range"/>
+        <result property="custDscdNm" column="cust_dscd_nm"/>
+        <result property="count" column="count"/>
+    </resultMap>
 
-    <select id="findDepositByCustomerType" resultMap="DepositCustomerResultMap" parameterType="map">
+
+    <select id="findDepositByCustomerType" resultMap="CustomerCountByTypeResultMap" parameterType="map">
         SELECT
         <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS new_dt,</if>
         <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS new_dt,</if>
@@ -24,5 +30,52 @@
         ORDER BY new_dt
     </select>
 
+    <select id="findDepositByAmount" resultMap="CustomerCountByAmountResultMap" parameterType="map">
+    <![CDATA[
+        WITH ranges AS (
+            SELECT 0 AS lower_bound, 300000 AS upper_bound FROM DUAL
+            UNION ALL
+            SELECT 300000, 1000000 FROM DUAL
+            UNION ALL
+            SELECT 1000000, 3000000 FROM DUAL
+            UNION ALL
+            SELECT 3000000, 5000000 FROM DUAL
+            UNION ALL
+            SELECT 5000000, 7000000 FROM DUAL
+            UNION ALL
+            SELECT 7000000, 10000000 FROM DUAL
+            UNION ALL
+            SELECT 10000000, 13000000 FROM DUAL
+            UNION ALL
+            SELECT 13000000, 20000000 FROM DUAL
+            UNION ALL
+            SELECT 20000000, 30000000 FROM DUAL
+            UNION ALL
+            SELECT 30000000, 40000000 FROM DUAL
+            UNION ALL
+            SELECT 40000000, NULL FROM DUAL
+        ),
+             all_cust_dscd_nm AS (
+                 SELECT DISTINCT cust_dscd_nm
+                 FROM deposit_info
+             )
+        SELECT
+            CONCAT(r.lower_bound, CONCAT('~', NVL(TO_CHAR(r.upper_bound), ''))) AS range,
+            acn.cust_dscd_nm,
+            SUM(NVL(CASE
+                        WHEN d.NEW_DPSAMT >= r.lower_bound AND (d.NEW_DPSAMT < r.upper_bound OR r.upper_bound IS NULL) THEN 1
+                        ELSE 0
+                        END, 0)) AS count
+        FROM ranges r
+            CROSS JOIN all_cust_dscd_nm acn
+            LEFT JOIN deposit_info d
+        ON acn.cust_dscd_nm = d.cust_dscd_nm
+            AND (d.NEW_DPSAMT >= r.lower_bound AND (d.NEW_DPSAMT < r.upper_bound OR r.upper_bound IS NULL))
+            AND d.bank_code = #{bankCode}
+            AND d.new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY r.lower_bound, r.upper_bound, acn.cust_dscd_nm
+        ORDER BY r.lower_bound, acn.cust_dscd_nm
+        ]]>
+    </select>
 
 </mapper>

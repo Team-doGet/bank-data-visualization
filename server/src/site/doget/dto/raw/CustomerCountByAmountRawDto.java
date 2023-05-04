@@ -1,13 +1,13 @@
-package site.doget.dto;
+package site.doget.dto.raw;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CustTypeRawDto {
+public class CustomerCountByAmountRawDto {
 
-    private String newDt;
+    private String range;
     private String custDscdNm;
     private String count;
 }

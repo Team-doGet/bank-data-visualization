@@ -1,4 +1,4 @@
-package site.doget.dto;
+package site.doget.dto.raw;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -6,7 +6,7 @@ import site.doget.common.CodeMapper;
 import site.doget.dto.FinancialListResDto;
 import site.doget.dto.FinancialReqDto;
 import site.doget.dto.FinancialResDto;
-import site.doget.dto.FnnrRawDto;
+import site.doget.dto.raw.FnnrRawDto;
 import site.doget.mybatis.mapper.FinancialMapper;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 
