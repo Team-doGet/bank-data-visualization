@@ -21,6 +21,8 @@ public class FrontController extends HttpServlet {
     public FrontController() {
         controllerMap.put("/income", new IncomeController());
         controllerMap.put("/financial", new FinancialController());
+        controllerMap.put("/loan/customers", new LoanCustomerController());
+        controllerMap.put("/deposit/customers", new DepositCustomerController());
     }
 
     @Override
