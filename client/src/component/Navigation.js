@@ -1,7 +1,6 @@
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
+import { Nav, Container, Navbar, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Financial from '../data/Financial';
 
 function Navigation() {
   const fontStyle = { fontSize: '1.2rem' };
@@ -23,6 +22,14 @@ function Navigation() {
               </Nav.Link>
             ))}
           </Nav>
+        </Navbar.Collapse>
+        <Navbar.Collapse></Navbar.Collapse>
+        <Navbar.Collapse>
+          <Form.Control as="select" name="srchFinancial" title="저축은행 선택">
+            {Financial.map((e) => (
+              <option value={e.code}>{e.name}</option>
+            ))}
+          </Form.Control>
         </Navbar.Collapse>
       </Container>
     </Navbar>
