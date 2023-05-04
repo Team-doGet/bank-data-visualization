@@ -3,7 +3,7 @@ package site.doget.controller;
 import site.doget.common.ApiResponse;
 import site.doget.common.ValidationResult;
 import site.doget.dto.BankReqDto;
-import site.doget.dto.CustTypeCompListResDto;
+import site.doget.dto.CustomerCountListResDto;
 import site.doget.service.LoanCustomerService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ public class LoanCustomerController implements Controller {
             return new ApiResponse<>(HttpServletResponse.SC_BAD_REQUEST, validationResult.getErrorMessage());
         }
 
-        CustTypeCompListResDto loanByCustomerType = loanCustomerService.findLoanByCustomerType(bankReqDto);
+        CustomerCountListResDto loanByCustomerType = loanCustomerService.findLoanByCustomerType(bankReqDto);
 
         return new ApiResponse<>(HttpServletResponse.SC_OK, loanByCustomerType);
     }

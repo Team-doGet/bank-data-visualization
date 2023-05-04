@@ -23,7 +23,7 @@ public class LoanCustomerService {
     private final SqlSessionFactory sqlSessionFactory = SqlSessionFactoryProvider.getInstance();
 
     // 고객 종류별 비교 조회
-    public CustTypeCompListResDto findLoanByCustomerType(BankReqDto bankReqDto) {
+    public CustomerCountListResDto findLoanByCustomerType(BankReqDto bankReqDto) {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             LoanCustomerMapper loanCustomerMapper = sqlSession.getMapper(LoanCustomerMapper.class);
@@ -44,10 +44,10 @@ public class LoanCustomerService {
                 data.get(dataIndex).add(custTypeRawDto.getCount());
             });
 
-            List<CustTypeCompResDto> datasets = new ArrayList<>();
-            datasets.add(new CustTypeCompResDto("개인", data.get(0)));
-            datasets.add(new CustTypeCompResDto("법인", data.get(1)));
-            return new CustTypeCompListResDto(dates, datasets);
+            List<CustomerCountResDto> datasets = new ArrayList<>();
+            datasets.add(new CustomerCountResDto("개인", data.get(0)));
+            datasets.add(new CustomerCountResDto("법인", data.get(1)));
+            return new CustomerCountListResDto(dates, datasets);
         }
 
     }
