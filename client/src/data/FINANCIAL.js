@@ -1,4 +1,4 @@
-const FINANCIAL = [
+const BANK_LIST = [
   { code: '10452', name: '경기저축은행' },
   { code: '10570', name: '(주)경은저축은행' },
   { code: '10545', name: '(주)골든브릿지저축은행' },
@@ -31,4 +31,4 @@ const FINANCIAL = [
   { code: '11550', name: '해솔저축은행' },
 ];
 
-export default Financial;
+export default BANK_LIST;
