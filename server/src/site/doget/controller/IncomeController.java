@@ -13,7 +13,7 @@ public class IncomeController implements Controller {
 
     IncomeService incomeService = IncomeService.getInstance();
     @Override
-    public ApiResponse<?> process(Map<String, String> paramMap) {
+    public ApiResponse<?> process(String requestURI, Map<String, String> paramMap) {
 
         BankReqDto bankReqDto = new BankReqDto(paramMap.get("bankCode"), paramMap.get("term"),
                 paramMap.get("stDate"), paramMap.get("endDate"));

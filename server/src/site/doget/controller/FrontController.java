@@ -27,17 +27,26 @@ public class FrontController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
-        Controller controller = controllerMap.get(requestURI);
+        Controller controller = findController(requestURI);
         if (controller == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
         Map<String, String> paramMap = createParamMap(request);
-        ApiResponse<?> controllerApiResponse = controller.process(paramMap);
+        ApiResponse<?> controllerApiResponse = controller.process(requestURI, paramMap);
 
         response.setStatus(controllerApiResponse.getStatus());
         jsonResolver(response, controllerApiResponse.getData());
+    }
+
+    private Controller findController(String requestURI) {
+        for (Map.Entry<String, Controller> entry : controllerMap.entrySet()) {
+            if (requestURI.startsWith(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {

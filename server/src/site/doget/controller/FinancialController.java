@@ -13,7 +13,7 @@ import java.util.Map;
 public class FinancialController implements Controller {
     FinancialService financialService = FinancialService.getInstance();
     @Override
-    public ApiResponse<?> process(Map<String, String> paramMap) {
+    public ApiResponse<?> process(String requestURI, Map<String, String> paramMap) {
         FinancialReqDto financialReqDto = new FinancialReqDto(paramMap.get("term"),paramMap.get("bankCode"),
                 paramMap.get("stDate"), paramMap.get("endDate"), paramMap.get("amountType"));
 
