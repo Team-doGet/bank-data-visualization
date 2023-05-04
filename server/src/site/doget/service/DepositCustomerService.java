@@ -2,12 +2,10 @@ package site.doget.service;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import site.doget.dto.BankReqDto;
-import site.doget.dto.CustomerCountListByTypeResDto;
-import site.doget.dto.CustomerCountByTypeResDto;
-import site.doget.dto.CustTypeRawDto;
+import site.doget.dto.*;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 import site.doget.mybatis.mapper.DepositCustomerMapper;
+import site.doget.mybatis.mapper.LoanCustomerMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ public class DepositCustomerService {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             DepositCustomerMapper depositCustomerMapper = sqlSession.getMapper(DepositCustomerMapper.class);
-            List<CustTypeRawDto> custTypeRawDtoList = depositCustomerMapper.findDepositByCustomerType(bankReqDto);
+            List<CustomerCountByTypeRawDto> customerCountByTypeRawDtoList = depositCustomerMapper.findDepositByCustomerType(bankReqDto);
 
             // CustTypeCompListResDto
             List<String> dates = new ArrayList<>();
@@ -39,12 +37,12 @@ public class DepositCustomerService {
             data.add(new ArrayList<>());
 
             // datasets 추가
-            custTypeRawDtoList.forEach(custTypeRawDto -> {
-                if (!dates.contains(custTypeRawDto.getNewDt())) {
-                    dates.add(custTypeRawDto.getNewDt());
+            customerCountByTypeRawDtoList.forEach(customerCountByTypeRawDto -> {
+                if (!dates.contains(customerCountByTypeRawDto.getNewDt())) {
+                    dates.add(customerCountByTypeRawDto.getNewDt());
                 }
-                int dataIndex = "개인".equals(custTypeRawDto.getCustDscdNm()) ? 0 : 1;
-                data.get(dataIndex).add(custTypeRawDto.getCount());
+                int dataIndex = "개인".equals(customerCountByTypeRawDto.getCustDscdNm()) ? 0 : 1;
+                data.get(dataIndex).add(customerCountByTypeRawDto.getCount());
             });
 
             List<CustomerCountByTypeResDto> datasets = new ArrayList<>();

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CustTypeRawDto {
+public class CustomerCountByTypeRawDto {
 
     private String newDt;
     private String custDscdNm;

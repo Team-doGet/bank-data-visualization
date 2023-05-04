@@ -28,7 +28,7 @@ public class LoanCustomerService {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             LoanCustomerMapper loanCustomerMapper = sqlSession.getMapper(LoanCustomerMapper.class);
-            List<CustTypeRawDto> custTypeRawDtoList = loanCustomerMapper.findLoanByCustomerType(bankReqDto);
+            List<CustomerCountByTypeRawDto> customerCountByTypeRawDtoList = loanCustomerMapper.findLoanByCustomerType(bankReqDto);
 
             // CustTypeCompListResDto
             List<String> dates = new ArrayList<>();
@@ -37,12 +37,12 @@ public class LoanCustomerService {
             data.add(new ArrayList<>());
 
             // datasets 추가
-            custTypeRawDtoList.forEach(custTypeRawDto -> {
-                if (!dates.contains(custTypeRawDto.getNewDt())) {
-                    dates.add(custTypeRawDto.getNewDt());
+            customerCountByTypeRawDtoList.forEach(customerCountByTypeRawDto -> {
+                if (!dates.contains(customerCountByTypeRawDto.getNewDt())) {
+                    dates.add(customerCountByTypeRawDto.getNewDt());
                 }
-                int dataIndex = "개인".equals(custTypeRawDto.getCustDscdNm()) ? 0 : 1;
-                data.get(dataIndex).add(custTypeRawDto.getCount());
+                int dataIndex = "개인".equals(customerCountByTypeRawDto.getCustDscdNm()) ? 0 : 1;
+                data.get(dataIndex).add(customerCountByTypeRawDto.getCount());
             });
 
             List<CustomerCountByTypeResDto> datasets = new ArrayList<>();
