@@ -33,10 +33,9 @@ const Loan = ({ baseDate }) => {
         <Col>
           <BarGraph term={term} url="/api/loan/period.json" xLabel={'기간'} yLabel={'인원 수'}></BarGraph>
         </Col>
-        <Col>
-          <BarGraph term={term} url="/api/loan/interest.json" xLabel={'이자'} yLabel={'인원 수'}></BarGraph>
-        </Col>
+        <Col></Col>
       </Row>
+
       <Row>
         <Col>
           <MultiGraph term={term} url="/api/loan/customers/amount.json" xLabel={'금액'} yLabel={'인원 수'}></MultiGraph>
