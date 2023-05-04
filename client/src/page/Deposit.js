@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import BarGraph from '../component/BarGraph';
 import PeriodForm from '../component/PeriodForm';
+import { Container, Row } from 'react-bootstrap';
 
 const Deposit = ({ baseDate }) => {
   const [term, setTerm] = useState({
@@ -10,12 +10,15 @@ const Deposit = ({ baseDate }) => {
     type: 'yearly',
   });
   return (
-    <div>
-      <h1>Deposit</h1>
+    <Container fluid>
+      <Row className="content-page mt-4">
+        <h1 style={{ fontWeight: 600 }}>Deposit</h1>
+        <h6 className="text-muted">{`${baseDate.min}~${baseDate.max}`}</h6>
+      </Row>
       <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
       <BarGraph term={term} url="/api/Bar1test.json"></BarGraph>
       <BarGraph term={term} url="/api/Bar1test2.json"></BarGraph>
-    </div>
+    </Container>
   );
 };
 

@@ -36,5 +36,23 @@ public class CodeMapper {
         /**
          * financial
          */
+        financialMap.put("C10000000", "자산");
+        financialMap.put("C11000000", "현금및예치금");
+        financialMap.put("C14000000", "대출채권");
+        financialMap.put("C15000000", "고정자산");
+        financialMap.put("C16000000", "기타자산");
+        financialMap.put("C17000000", "유가증권");
+        financialMap.put("C19000000", "손실금");
+        financialMap.put("C20000000", "부채");
+        financialMap.put("C21000000", "예수부채");
+        financialMap.put("C22000000", "차입부채");
+        financialMap.put("C23000000", "기타부채");
+        financialMap.put("C30000000", "자본");
+        financialMap.put("C31000000", "자본금");
+        financialMap.put("C32000000", "자본잉여금");
+        financialMap.put("C33000000", "이익잉여금");
+        financialMap.put("C34000000", "자본조정");
+        financialMap.put("C35000000", "기타포괄손익누계액");
+        financialMap.put("C39000000", "이익금");
     }
 }
