@@ -58,7 +58,7 @@
         FROM fnnr_sttus_table
         WHERE bank_code = #{bankCode}
         AND amount_type = #{amountType}
-        AND base_ym BETWEEN to_date(#{stDate}) AND to_date(#{endDate})
+        AND base_ym BETWEEN to_date(#{stDate}, 'yyyy-mm-dd') AND to_date(#{endDate}, 'yyyy-mm-dd')
         GROUP BY
             <if test="term == 'yearly'">
                 TO_CHAR(base_ym, 'yyyy')
