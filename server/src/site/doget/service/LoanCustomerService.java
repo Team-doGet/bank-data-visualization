@@ -20,10 +20,11 @@ public class LoanCustomerService {
     private LoanCustomerService() {
     }
 
+
     private final SqlSessionFactory sqlSessionFactory = SqlSessionFactoryProvider.getInstance();
 
-    // 고객 종류별 비교 조회
-    public CustomerCountListResDto findLoanByCustomerType(BankReqDto bankReqDto) {
+    // 고객 종류별 대출 고객 수 조회
+    public CustomerCountListByTypeResDto findLoanByCustomerType(BankReqDto bankReqDto) {
 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             LoanCustomerMapper loanCustomerMapper = sqlSession.getMapper(LoanCustomerMapper.class);
@@ -44,11 +45,40 @@ public class LoanCustomerService {
                 data.get(dataIndex).add(custTypeRawDto.getCount());
             });
 
-            List<CustomerCountResDto> datasets = new ArrayList<>();
-            datasets.add(new CustomerCountResDto("개인", data.get(0)));
-            datasets.add(new CustomerCountResDto("법인", data.get(1)));
-            return new CustomerCountListResDto(dates, datasets);
+            List<CustomerCountByTypeResDto> datasets = new ArrayList<>();
+            datasets.add(new CustomerCountByTypeResDto("개인", data.get(0)));
+            datasets.add(new CustomerCountByTypeResDto("법인", data.get(1)));
+            return new CustomerCountListByTypeResDto(dates, datasets);
         }
 
+    }
+
+    // 금액별 대출 고객 수 조회
+    public CustomerCountListByAmountResDto findLoanByAmount(BankReqDto bankReqDto) {
+
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            LoanCustomerMapper loanCustomerMapper = sqlSession.getMapper(LoanCustomerMapper.class);
+            List<CustomerCountByAmountRawDto> customerCountByAmountRawDtoList = loanCustomerMapper.findLoanByAmount(bankReqDto);
+
+            // CustomerCountListByAmountResDto
+            List<String> labels = new ArrayList<>();
+            List<List<String>> data = new ArrayList<>();
+            data.add(new ArrayList<>());
+            data.add(new ArrayList<>());
+
+            // datasets 추가
+            customerCountByAmountRawDtoList.forEach(customerCountByAmountRawDto -> {
+                if (!labels.contains(customerCountByAmountRawDto.getRange())) {
+                    labels.add(customerCountByAmountRawDto.getRange());
+                }
+                int dataIndex = "개인".equals(customerCountByAmountRawDto.getCustDscdNm()) ? 0 : 1;
+                data.get(dataIndex).add(customerCountByAmountRawDto.getCount());
+            });
+
+            List<CustomerCountByAmountResDto> datasets = new ArrayList<>();
+            datasets.add(new CustomerCountByAmountResDto("개인", data.get(0)));
+            datasets.add(new CustomerCountByAmountResDto("법인", data.get(1)));
+            return new CustomerCountListByAmountResDto(labels, datasets);
+        }
     }
 }

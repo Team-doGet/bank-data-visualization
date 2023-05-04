@@ -5,12 +5,12 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class CustomerCountByTypeResDto {
+public class CustomerCountByAmountResDto {
 
     private String label;
     private List<String> data;
 
-    public CustomerCountByTypeResDto(String label, List<String> data) {
+    public CustomerCountByAmountResDto(String label, List<String> data) {
         this.label = label;
         this.data = data;
     }
