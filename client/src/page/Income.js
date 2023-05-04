@@ -82,10 +82,11 @@ const Income = ({ baseDate }) => {
                 data={{
                   labels: incomeData.labels,
                   datasets: incomeData.datasets
-                    .filter((data) => e.column.indexOf(data.code) > -1)
-                    .map((data, i) => ({
-                      ...data,
+                    .filter((row) => e.column.indexOf(row.code) > -1)
+                    .map((row, i) => ({
+                      ...row,
                       ...ColorSet[i],
+                      data: row.data.map((el) => Number(el || 0)),
                     })),
                 }}
               />

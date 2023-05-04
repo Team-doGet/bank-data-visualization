@@ -47,7 +47,7 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
           y1: {
             type: 'linear',
             display: true,
-            position: 'right',
+            position: 'left',
             id: 'y1',
             title: {
               display: true,
@@ -119,7 +119,9 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
             </h3>
           </Card.Header>
           <Card.Body>
-            <Chart type="bar" options={options} data={data} />
+            <div>
+              <Chart options={options} data={data} />
+            </div>
           </Card.Body>
         </Card>
       </Row>
