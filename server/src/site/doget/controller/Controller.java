@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface Controller {
 
-    ApiResponse<?> process(Map<String, String> paramMap);
+    ApiResponse<?> process(String requestURI, Map<String, String> paramMap);
 }

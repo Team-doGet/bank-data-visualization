@@ -33,7 +33,7 @@ public class FrontController extends HttpServlet {
         }
 
         Map<String, String> paramMap = createParamMap(request);
-        ApiResponse<?> controllerApiResponse = controller.process(paramMap);
+        ApiResponse<?> controllerApiResponse = controller.process(requestURI, paramMap);
 
         response.setStatus(controllerApiResponse.getStatus());
         jsonResolver(response, controllerApiResponse.getData());
