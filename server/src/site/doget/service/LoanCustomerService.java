@@ -3,6 +3,8 @@ package site.doget.service;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.dto.*;
+import site.doget.dto.raw.CustomerCountByAmountRawDto;
+import site.doget.dto.raw.CustomerCountByTypeRawDto;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 import site.doget.mybatis.mapper.LoanCustomerMapper;
 

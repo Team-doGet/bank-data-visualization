@@ -2,7 +2,7 @@ package site.doget.mybatis.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import site.doget.dto.BankReqDto;
-import site.doget.dto.CustomerCountByTypeRawDto;
+import site.doget.dto.raw.CustomerCountByTypeRawDto;
 
 import java.util.List;
 

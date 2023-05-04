@@ -6,7 +6,7 @@ import site.doget.common.CodeMapper;
 import site.doget.dto.IncomeResDto;
 import site.doget.dto.IncomeListResDto;
 import site.doget.dto.BankReqDto;
-import site.doget.dto.PlosdocRawDto;
+import site.doget.dto.raw.PlosdocRawDto;
 import site.doget.mybatis.mapper.IncomeMapper;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 
