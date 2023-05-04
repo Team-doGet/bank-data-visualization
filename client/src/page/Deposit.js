@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PeriodForm from '../component/PeriodForm';
 import BubbleGraph from '../component/BubbleGraph';
 import BarGraph from '../component/BarGraph';
 import LineGraph from '../component/LineGraph';
 import MultiGraph from '../component/MultiGraph';
 import { Row, Col, Container } from 'react-bootstrap';
+import DotMap from '../component/DotMap';
 
 const Loan = ({ baseDate }) => {
   const [term, setTerm] = useState({
@@ -12,8 +13,10 @@ const Loan = ({ baseDate }) => {
     end: baseDate.max,
     type: 'yearly',
   });
+
   return (
     <Container fluid>
+      <DotMap></DotMap>
       <Row className="content-page mt-4">
         <Col>
           <h1 style={{ fontWeight: 600 }}>Deposit</h1>
@@ -39,12 +42,12 @@ const Loan = ({ baseDate }) => {
       </Row>
       <Row>
         <Col>
-          <MultiGraph
+          {/* <MultiGraph
             term={term}
             url="/api/deposit/customers/amount.json"
             xLabel={'금액'}
             yLabel={'인원 수'}
-          ></MultiGraph>
+          ></MultiGraph> */}
         </Col>
       </Row>
       <Row>
