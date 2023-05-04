@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="site.doget.mybatis.mapper.LoanCustomerMapper">
-    <resultMap id="CustTypeResultMap" type="site.doget.dto.raw.CustomerCountByTypeRawDto">
+    <resultMap id="CustomerCountByTypeResultMap" type="site.doget.dto.raw.CustomerCountByTypeRawDto">
         <result property="newDt" column="new_dt"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
         <result property="count" column="count"/>
@@ -14,7 +14,7 @@
     </resultMap>
 
 
-    <select id="findLoanByCustomerType" resultMap="CustTypeResultMap" parameterType="map">
+    <select id="findLoanByCustomerType" resultMap="CustomerCountByTypeResultMap" parameterType="map">
         SELECT
         <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS new_dt,</if>
         <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS new_dt,</if>
