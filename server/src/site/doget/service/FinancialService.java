@@ -28,7 +28,7 @@ public class FinancialService {
             List<FnnrRawDto> fnnrRawDtoList = financialMapper.findByTermAndBankCode(financialReqDto);
 
             // FinancialListResDto
-            List<String> date = new ArrayList<>();
+            List<String> labels = new ArrayList<>();
             List<FinancialResDto> datasets = new ArrayList<>();
 
             // FinancialResDto
@@ -40,13 +40,13 @@ public class FinancialService {
             }
 
             for (FnnrRawDto fnnrRawDto : fnnrRawDtoList) {
-                date.add(fnnrRawDto.getBaseYm());
+                labels.add(fnnrRawDto.getBaseYm());
                 for (int i = 0; i < codes.length; i++) {
                     datasets.get(i).getData().add(fnnrRawDto.getValueByCode(codes[i]));
                 }
             }
 
-            return new FinancialListResDto(date, datasets);
+            return new FinancialListResDto(labels, datasets);
         }
     }
 }

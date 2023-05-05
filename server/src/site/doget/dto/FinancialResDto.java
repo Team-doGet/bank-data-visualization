@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class FinancialResDto {
     private String code;
     private String label;
-    private ArrayList<String> data;
+    private ArrayList<Integer> data;
 
-    public FinancialResDto(String code, String label, ArrayList<String> data) {
+    public FinancialResDto(String code, String label, ArrayList<Integer> data) {
         this.code = code;
         this.label = label;
         this.data = data;

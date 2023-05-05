@@ -5,11 +5,11 @@ import java.util.List;
 
 @Getter
 public class FinancialListResDto {
-    private List<String> date;
+    private List<String> labels;
     private List<FinancialResDto> datasets;
 
-    public FinancialListResDto(List<String> date, List<FinancialResDto> datasets) {
-        this.date = date;
+    public FinancialListResDto(List<String> labels, List<FinancialResDto> datasets) {
+        this.labels = labels;
         this.datasets = datasets;
     }
 }
