@@ -5,12 +5,12 @@
     <resultMap id="CustomerCountByTypeResultMap" type="site.doget.dto.raw.CustomerCountByTypeRawDto">
         <result property="newDt" column="new_dt"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
-        <result property="count" column="count"/>
+        <result property="count" column="count" javaType="int"/>
     </resultMap>
     <resultMap id="CustomerCountByAmountResultMap" type="site.doget.dto.raw.CustomerCountByAmountRawDto">
         <result property="range" column="range"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
-        <result property="count" column="count"/>
+        <result property="count" column="count" javaType="int"/>
     </resultMap>
 
 

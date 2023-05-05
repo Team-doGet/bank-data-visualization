@@ -34,7 +34,7 @@ public class LoanCustomerService {
 
             // CustomerCountListByTypeResDto
             List<String> labels = new ArrayList<>();
-            List<List<String>> data = new ArrayList<>();
+            List<List<Integer>> data = new ArrayList<>();
             data.add(new ArrayList<>());
             data.add(new ArrayList<>());
 
@@ -64,7 +64,7 @@ public class LoanCustomerService {
 
             // CustomerCountListByAmountResDto
             List<String> labels = new ArrayList<>();
-            List<List<String>> data = new ArrayList<>();
+            List<List<Integer>> data = new ArrayList<>();
             data.add(new ArrayList<>());
             data.add(new ArrayList<>());
 

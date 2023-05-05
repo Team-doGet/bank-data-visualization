@@ -8,9 +8,9 @@ import java.util.List;
 public class CustomerCountByTypeResDto {
 
     private String label;
-    private List<String> data;
+    private List<Integer> data;
 
-    public CustomerCountByTypeResDto(String label, List<String> data) {
+    public CustomerCountByTypeResDto(String label, List<Integer> data) {
         this.label = label;
         this.data = data;
     }

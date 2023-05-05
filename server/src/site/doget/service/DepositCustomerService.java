@@ -33,7 +33,7 @@ public class DepositCustomerService {
 
             // CustTypeCompListResDto
             List<String> dates = new ArrayList<>();
-            List<List<String>> data = new ArrayList<>();
+            List<List<Integer>> data = new ArrayList<>();
             data.add(new ArrayList<>());
             data.add(new ArrayList<>());
 
@@ -63,7 +63,7 @@ public class DepositCustomerService {
 
             // CustomerCountListByAmountResDto
             List<String> labels = new ArrayList<>();
-            List<List<String>> data = new ArrayList<>();
+            List<List<Integer>> data = new ArrayList<>();
             data.add(new ArrayList<>());
             data.add(new ArrayList<>());
 
