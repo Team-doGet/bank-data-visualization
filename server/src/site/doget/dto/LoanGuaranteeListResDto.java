@@ -4,11 +4,11 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class FinancialListResDto {
+public class LoanGuaranteeListResDto {
     private List<String> labels;
-    private List<FinancialResDto> datasets;
+    private List<LoanGuaranteeResDto> datasets;
 
-    public FinancialListResDto(List<String> labels, List<FinancialResDto> datasets) {
+    public LoanGuaranteeListResDto(List<String> labels, List<LoanGuaranteeResDto> datasets) {
         this.labels = labels;
         this.datasets = datasets;
     }

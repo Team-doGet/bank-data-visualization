@@ -7,26 +7,26 @@ import lombok.Setter;
 @Setter
 public class FnnrRawDto {
     private String baseYm;
-    private String C10000000;
-    private String C11000000;
-    private String C14000000;
-    private String C15000000;
-    private String C16000000;
-    private String C17000000;
-    private String C19000000;
-    private String C20000000;
-    private String C21000000;
-    private String C22000000;
-    private String C23000000;
-    private String C30000000;
-    private String C31000000;
-    private String C32000000;
-    private String C33000000;
-    private String C34000000;
-    private String C35000000;
-    private String C39000000;
+    private int C10000000;
+    private int C11000000;
+    private int C14000000;
+    private int C15000000;
+    private int C16000000;
+    private int C17000000;
+    private int C19000000;
+    private int C20000000;
+    private int C21000000;
+    private int C22000000;
+    private int C23000000;
+    private int C30000000;
+    private int C31000000;
+    private int C32000000;
+    private int C33000000;
+    private int C34000000;
+    private int C35000000;
+    private int C39000000;
 
-    public String getValueByCode(String code) {
+    public int getValueByCode(String code) {
         switch (code) {
             case "C10000000":
                 return getC10000000();
@@ -65,7 +65,7 @@ public class FnnrRawDto {
             case "C39000000":
                 return getC39000000();
             default:
-                return null;
+                throw new IllegalArgumentException("유효하지 않는 code 입니다.: " + code);
         }
     }
 }

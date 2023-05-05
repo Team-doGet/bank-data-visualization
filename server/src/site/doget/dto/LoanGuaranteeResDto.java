@@ -1,17 +1,14 @@
 package site.doget.dto;
 
 import lombok.Getter;
-
 import java.util.ArrayList;
 
 @Getter
-public class FinancialResDto {
-    private String code;
+public class LoanGuaranteeResDto {
     private String label;
     private ArrayList<Integer> data;
 
-    public FinancialResDto(String code, String label, ArrayList<Integer> data) {
-        this.code = code;
+    public LoanGuaranteeResDto(String label, ArrayList<Integer> data) {
         this.label = label;
         this.data = data;
     }

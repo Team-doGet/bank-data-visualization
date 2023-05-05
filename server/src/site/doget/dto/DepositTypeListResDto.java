@@ -1,14 +1,15 @@
 package site.doget.dto;
 
 import lombok.Getter;
+
 import java.util.List;
 
 @Getter
-public class FinancialListResDto {
+public class DepositTypeListResDto {
     private List<String> labels;
-    private List<FinancialResDto> datasets;
+    private List<DepositTypeResDto> datasets;
 
-    public FinancialListResDto(List<String> labels, List<FinancialResDto> datasets) {
+    public DepositTypeListResDto(List<String> labels, List<DepositTypeResDto> datasets) {
         this.labels = labels;
         this.datasets = datasets;
     }
