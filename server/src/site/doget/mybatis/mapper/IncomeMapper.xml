@@ -4,25 +4,25 @@
 <mapper namespace="site.doget.mybatis.mapper.IncomeMapper">
     <resultMap id="IncomeResultMap" type="site.doget.dto.raw.PlosdocRawDto">
         <result property="baseYm" column="base_ym"/>
-        <result property="C40000000" column="C40000000"/>
-        <result property="C41000000" column="C41000000"/>
-        <result property="C42000000" column="C42000000"/>
-        <result property="C43000000" column="C43000000"/>
-        <result property="C45000000" column="C45000000"/>
-        <result property="C47000000" column="C47000000"/>
-        <result property="C48000000" column="C48000000"/>
-        <result property="C55000000" column="C55000000"/>
-        <result property="C57000000" column="C57000000"/>
-        <result property="C58000000" column="C58000000"/>
-        <result property="C60000000" column="C60000000"/>
-        <result property="C61000000" column="C61000000"/>
-        <result property="C62000000" column="C62000000"/>
-        <result property="C63000000" column="C63000000"/>
-        <result property="C65000000" column="C65000000"/>
-        <result property="C66000000" column="C66000000"/>
-        <result property="C67000000" column="C67000000"/>
-        <result property="C77000000" column="C77000000"/>
-        <result property="C78000000" column="C78000000"/>
+        <result property="C40000000" column="C40000000" javaType="int"/>
+        <result property="C41000000" column="C41000000" javaType="int"/>
+        <result property="C42000000" column="C42000000" javaType="int"/>
+        <result property="C43000000" column="C43000000" javaType="int"/>
+        <result property="C45000000" column="C45000000" javaType="int"/>
+        <result property="C47000000" column="C47000000" javaType="int"/>
+        <result property="C48000000" column="C48000000" javaType="int"/>
+        <result property="C55000000" column="C55000000" javaType="int"/>
+        <result property="C57000000" column="C57000000" javaType="int"/>
+        <result property="C58000000" column="C58000000" javaType="int"/>
+        <result property="C60000000" column="C60000000" javaType="int"/>
+        <result property="C61000000" column="C61000000" javaType="int"/>
+        <result property="C62000000" column="C62000000" javaType="int"/>
+        <result property="C63000000" column="C63000000" javaType="int"/>
+        <result property="C65000000" column="C65000000" javaType="int"/>
+        <result property="C66000000" column="C66000000" javaType="int"/>
+        <result property="C67000000" column="C67000000" javaType="int"/>
+        <result property="C77000000" column="C77000000" javaType="int"/>
+        <result property="C78000000" column="C78000000" javaType="int"/>
     </resultMap>
 
     <select id="findByTermAndBankCode" resultMap="IncomeResultMap" parameterType="map">

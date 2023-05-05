@@ -8,27 +8,27 @@ import lombok.Setter;
 public class PlosdocRawDto {
 
     private String baseYm;
-    private String C40000000;
-    private String C41000000;
-    private String C42000000;
-    private String C43000000;
-    private String C45000000;
-    private String C47000000;
-    private String C48000000;
-    private String C55000000;
-    private String C57000000;
-    private String C58000000;
-    private String C60000000;
-    private String C61000000;
-    private String C62000000;
-    private String C63000000;
-    private String C65000000;
-    private String C66000000;
-    private String C67000000;
-    private String C77000000;
-    private String C78000000;
+    private int C40000000;
+    private int C41000000;
+    private int C42000000;
+    private int C43000000;
+    private int C45000000;
+    private int C47000000;
+    private int C48000000;
+    private int C55000000;
+    private int C57000000;
+    private int C58000000;
+    private int C60000000;
+    private int C61000000;
+    private int C62000000;
+    private int C63000000;
+    private int C65000000;
+    private int C66000000;
+    private int C67000000;
+    private int C77000000;
+    private int C78000000;
 
-    public String getValueByCode(String code) {
+    public int getValueByCode(String code) {
         switch (code) {
             case "C40000000":
                 return getC40000000();
@@ -69,7 +69,7 @@ public class PlosdocRawDto {
             case "C78000000":
                 return getC78000000();
             default:
-                return null;
+                throw new IllegalArgumentException(code + "는 유효하지 않습니다." );
         }
     }
 }
