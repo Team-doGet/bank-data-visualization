@@ -69,7 +69,7 @@ public class PlosdocRawDto {
             case "C78000000":
                 return getC78000000();
             default:
-                throw new IllegalArgumentException(code + "는 유효하지 않습니다." );
+                throw new IllegalArgumentException("유효하지 않는 code 입니다.: " + code);
         }
     }
 }
