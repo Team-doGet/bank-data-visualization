@@ -5,12 +5,16 @@
     <resultMap id="CustomerCountByTypeResultMap" type="site.doget.dto.raw.CustomerCountByTypeRawDto">
         <result property="newDt" column="new_dt"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
-        <result property="count" column="count"/>
+        <result property="count" column="count" javaType="int"/>
     </resultMap>
     <resultMap id="CustomerCountByAmountResultMap" type="site.doget.dto.raw.CustomerCountByAmountRawDto">
         <result property="range" column="range"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
-        <result property="count" column="count"/>
+        <result property="count" column="count" javaType="int"/>
+    </resultMap>
+    <resultMap id="CustomerCountByRegionResultMap" type="site.doget.dto.raw.CustomerCountByRegionRawDto">
+        <result property="custLctplcNm" column="cust_lctplc_nm"/>
+        <result property="count" column="count" javaType="int"/>
     </resultMap>
 
 
@@ -59,21 +63,27 @@
             CONCAT(r.lower_bound, CONCAT('~', NVL(TO_CHAR(r.upper_bound), ''))) AS range,
             acn.cust_dscd_nm,
             SUM(NVL(CASE
-                        WHEN l.NEW_LN_AMT >= r.lower_bound AND (l.NEW_LN_AMT < r.upper_bound OR r.upper_bound IS NULL) THEN 1
+                        WHEN l.new_ln_amt >= r.lower_bound AND (l.new_ln_amt < r.upper_bound OR r.upper_bound IS NULL) THEN 1
                         ELSE 0
                         END, 0)) AS count
         FROM ranges r
                  CROSS JOIN all_cust_dscd_nm acn
                  LEFT JOIN loan_info l
                            ON acn.cust_dscd_nm = l.cust_dscd_nm
-                               AND (l.NEW_LN_AMT >= r.lower_bound AND (l.NEW_LN_AMT < r.upper_bound OR r.upper_bound IS NULL))
+                               AND (l.new_ln_amt >= r.lower_bound AND (l.new_ln_amt < r.upper_bound OR r.upper_bound IS NULL))
                                AND l.bank_code = #{bankCode}
                                AND l.new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
         GROUP BY r.lower_bound, r.upper_bound, acn.cust_dscd_nm
         ORDER BY r.lower_bound, acn.cust_dscd_nm
         ]]>
     </select>
-
+    
+    <select id="findLoanByRegion" resultMap="CustomerCountByRegionResultMap" parameterType="map">
+        SELECT NVL(cust_lctplc_nm, '미기입') AS cust_lctplc_nm, COUNT(*) AS count
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY cust_lctplc_nm
+    </select>
 
 
 

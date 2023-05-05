@@ -8,9 +8,9 @@ public class IncomeResDto {
 
     private String code;
     private String label;
-    private ArrayList<String> data;
+    private ArrayList<Integer> data;
 
-    public IncomeResDto(String code, String label, ArrayList<String> data) {
+    public IncomeResDto(String code, String label, ArrayList<Integer> data) {
         this.code = code;
         this.label = label;
         this.data = data;

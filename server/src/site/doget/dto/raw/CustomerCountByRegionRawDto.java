@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CustomerCountByTypeRawDto {
+public class CustomerCountByRegionRawDto {
 
-    private String newDt;
-    private String custDscdNm;
+    private String custLctplcNm;    // 지역
     private int count;
 }

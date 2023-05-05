@@ -9,5 +9,5 @@ public class CustomerCountByAmountRawDto {
 
     private String range;
     private String custDscdNm;
-    private String count;
+    private int count;
 }
