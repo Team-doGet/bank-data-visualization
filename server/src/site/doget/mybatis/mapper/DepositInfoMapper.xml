@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="site.doget.mybatis.mapper.DepositInfoMapper">
+    <!--예금 종류별 고객 수 조회-->
+    <resultMap id="DepositTypeResultMap" type="site.doget.dto.raw.DepositInfoRawDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="accSbjcNm" column="acc_sbjc_nm"/>
+        <result property="cnt" column="cnt"/>
+    </resultMap>
+    <select id="findDepositTypeByTermAndBankCode" resultMap="DepositTypeResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">
+            TO_CHAR(new_dt, 'yyyy') AS base_ym,
+        </if>
+        <if test="term == 'quarterly'">
+            TO_CHAR(new_dt, 'yyyy-q') AS base_ym,
+        </if>
+        <if test="term == 'monthly'">
+            TO_CHAR(new_dt, 'yyyy-mm') AS base_ym,
+        </if>
+        acc_sbjc_nm, COUNT(*) as cnt
+        FROM deposit_info
+        WHERE bank_code = #{bankCode}
+        AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">
+            TO_CHAR(new_dt, 'yyyy'),
+        </if>
+        <if test="term == 'quarterly'">
+            TO_CHAR(new_dt, 'yyyy-q'),
+        </if>
+        <if test="term == 'monthly'">
+            TO_CHAR(new_dt, 'yyyy-mm'),
+        </if>
+        acc_sbjc_nm
+        ORDER BY acc_sbjc_nm, base_ym
+    </select>
+
+
+</mapper>
