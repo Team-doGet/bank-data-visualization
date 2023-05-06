@@ -22,15 +22,13 @@ public class FrontController extends HttpServlet {
         controllerMap.put("/income", new IncomeController());
         controllerMap.put("/financial", new FinancialController());
         controllerMap.put("/loan/customers", new LoanCustomerController());
-        controllerMap.put("/deposit/customers", new DepositCustomerController());
         controllerMap.put("/loan/guarantee", new LoanInfoController());
-        controllerMap.put("/deposit/type", new DepositInfoController());
         controllerMap.put("/loan/period", new LoanInfoController());
-        controllerMap.put("/deposit/period", new DepositInfoController());
-        controllerMap.put("/loan/interest", new LoanInfoController());
-        controllerMap.put("/deposit/interest", new LoanInfoController());
         controllerMap.put("/loan/stats", new LoanInfoController());
-        controllerMap.put("/deposit/stats", new LoanInfoController());
+        controllerMap.put("/deposit/customers", new DepositCustomerController());
+        controllerMap.put("/deposit/type", new DepositInfoController());
+        controllerMap.put("/deposit/period", new DepositInfoController());
+        controllerMap.put("/deposit/stats", new DepositInfoController());
     }
 
     @Override
