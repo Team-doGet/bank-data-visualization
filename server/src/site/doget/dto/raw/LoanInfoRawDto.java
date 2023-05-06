@@ -8,6 +8,7 @@ import lombok.Setter;
 public class LoanInfoRawDto {
     private String baseYm;
     private String credMrtgNm;
+    private String custDscdNm;
     private Integer cnt;
     private Integer max;
     private Integer avg;
