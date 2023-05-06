@@ -3,8 +3,10 @@ package site.doget.service;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.dto.*;
+import site.doget.dto.raw.DepositInfoRawDto;
 import site.doget.dto.raw.LoanInfoRawDto;
 import site.doget.mybatis.SqlSessionFactoryProvider;
+import site.doget.mybatis.mapper.DepositInfoMapper;
 import site.doget.mybatis.mapper.LoanInfoMapper;
 
 import java.util.*;
@@ -58,6 +60,51 @@ public class LoanInfoService {
             }
 
             return new LoanGuaranteeListResDto(labels, datasets);
+        }
+    }
+
+
+    public LoanPeriodListResDto findLoanPeriodByTermAndBankCode(BankReqDto bankReqDto) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            LoanInfoMapper loanInfoMapper = sqlSession.getMapper(LoanInfoMapper.class);
+            List<LoanInfoRawDto> loanInfoRawDtoList = loanInfoMapper.findLoanPeriodByTermAndBankCode(bankReqDto);
+
+            List<String> labels = new ArrayList<>();
+            List<LoanPeriodResDto> datasets = new ArrayList<>();
+
+            Set<String> custTypeSet = new HashSet<String>();
+            for (LoanInfoRawDto loanInfoRawDto : loanInfoRawDtoList) {
+                custTypeSet.add(loanInfoRawDto.getCustDscdNm());
+            }
+            String[] custTypeList = custTypeSet.toArray(new String[custTypeSet.size()]);
+            Arrays.sort(custTypeList);
+
+            Set<String> baseYmSet = new HashSet<String>();
+            for (LoanInfoRawDto loanInfoRawDto : loanInfoRawDtoList) {
+                baseYmSet.add(loanInfoRawDto.getBaseYm());
+            }
+            String[] labelList = baseYmSet.toArray(new String[baseYmSet.size()]);
+            Arrays.sort(labelList);
+            labels = List.of(labelList);
+
+            for (String custType : custTypeList) {
+                datasets.add(new LoanPeriodResDto(custType, new ArrayList<>()));
+            }
+
+            List<Integer> cntList = new ArrayList<Integer >();
+            for (LoanInfoRawDto loanInfoRawDto : loanInfoRawDtoList) {
+                cntList.add(loanInfoRawDto.getCnt());
+            }
+
+            int k = 0;
+            for (int i = 0; i < custTypeList.length; i++) {
+                for (int j = 0; j < loanInfoRawDtoList.size() / custTypeList.length; j++) {
+                    if (k >= cntList.size()) break;
+                    datasets.get(i).getData().add(cntList.get(k++));
+                }
+            }
+
+            return new LoanPeriodListResDto(labels, datasets);
         }
     }
 }

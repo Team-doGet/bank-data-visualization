@@ -37,5 +37,38 @@
         ORDER BY acc_sbjc_nm, base_ym
     </select>
 
-
+    <!--예금 기간별 고객 수 조회-->
+    <resultMap id="DepositPeriodResultMap" type="site.doget.dto.raw.DepositInfoRawDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="custDscdNm" column="cust_dscd_nm"/>
+        <result property="cnt" column="cnt"/>
+    </resultMap>
+    <select id="findDepositPeriodByTermAndBankCode" resultMap="DepositPeriodResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">
+            TO_CHAR(new_dt, 'yyyy') AS base_ym,
+        </if>
+        <if test="term == 'quarterly'">
+            TO_CHAR(new_dt, 'yyyy-q') AS base_ym,
+        </if>
+        <if test="term == 'monthly'">
+            TO_CHAR(new_dt, 'yyyy-mm') AS base_ym,
+        </if>
+        cust_dscd_nm, COUNT(*) as cnt
+        FROM deposit_info
+        WHERE bank_code = #{bankCode}
+        AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">
+            TO_CHAR(new_dt, 'yyyy'),
+        </if>
+        <if test="term == 'quarterly'">
+            TO_CHAR(new_dt, 'yyyy-q'),
+        </if>
+        <if test="term == 'monthly'">
+            TO_CHAR(new_dt, 'yyyy-mm'),
+        </if>
+        cust_dscd_nm
+        ORDER BY cust_dscd_nm, base_ym
+    </select>
 </mapper>
