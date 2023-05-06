@@ -9,6 +9,6 @@ import java.util.List;
 public interface LoanInfoMapper {
     List<LoanInfoRawDto> findLoanGuaranteeByTermAndBankCode(BankReqDto bankReqDto);
     List<LoanInfoRawDto> findLoanPeriodByTermAndBankCode(BankReqDto bankReqDto);
-    List<LoanInfoRawDto> findLoanInterestByTermAndBankCode(BankReqDto bankReqDto);
     List<LoanInfoRawDto> findLoanStatsByTermAndBankCode(BankReqDto bankReqDto);
+    List<LoanInfoRawDto> findLoanStatsModByTermAndBankCode(BankReqDto bankReqDto);
 }
