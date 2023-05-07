@@ -28,12 +28,6 @@ public class DepositInfoService {
             List<String> labels = new ArrayList<>();
             List<DepositTypeResDto> datasets = new ArrayList<>();
 
-            Set<String> typeSet = new HashSet<String>();
-            for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
-                typeSet.add(depositInfoRawDto.getAccSbjcNm());
-            }
-            String[] depositTypeList = typeSet.toArray(new String[typeSet.size()]);
-
             Set<String> baseYmSet = new HashSet<String>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
                 baseYmSet.add(depositInfoRawDto.getBaseYm());
@@ -42,22 +36,24 @@ public class DepositInfoService {
             Arrays.sort(labelList);
             labels = List.of(labelList);
 
-            for (String depositType : depositTypeList) {
-                datasets.add(new DepositTypeResDto(depositType, new ArrayList<>()));
-            }
-
-            List<Integer> cntList = new ArrayList<Integer >();
+            Set<String> typeSet = new HashSet<String>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
-                cntList.add(depositInfoRawDto.getCnt());
+                typeSet.add(depositInfoRawDto.getAccSbjcNm());
+            }
+            String[] depositTypeList = typeSet.toArray(new String[typeSet.size()]);
+            Arrays.sort(depositTypeList);
+            for (String depositType : depositTypeList) {
+                datasets.add(new DepositTypeResDto(depositType, new ArrayList<>(Collections.nCopies(labels.size(), 0))));
             }
 
-            int k = 0;
-            for (int i = 0; i < depositTypeList.length; i++) {
-                for (int j = 0; j < depositInfoRawDtoList.size() / depositTypeList.length; j++) {
-                    if (k >= cntList.size()) break;
-
-                    if (cntList.get(k) == null) datasets.get(i).getData().add(0);
-                    else datasets.get(i).getData().add(cntList.get(k++));
+            for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
+                String type = depositInfoRawDto.getAccSbjcNm();
+                int idx = labels.indexOf(depositInfoRawDto.getBaseYm());
+                for (DepositTypeResDto dataset : datasets) {
+                    if (type.equals(dataset.getLabel())) {
+                        dataset.getData().set(idx, depositInfoRawDto.getCnt());
+                        break;
+                    }
                 }
             }
 
@@ -72,7 +68,6 @@ public class DepositInfoService {
 
             List<String> labels = new ArrayList<>();
             List<DepositPeriodResDto> datasets = new ArrayList<>();
-
 
             Set<String> custTypeSet = new HashSet<String>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
