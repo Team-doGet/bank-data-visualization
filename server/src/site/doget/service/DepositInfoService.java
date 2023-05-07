@@ -4,16 +4,18 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.dto.*;
 import site.doget.dto.raw.DepositInfoRawDto;
-import site.doget.dto.raw.LoanInfoRawDto;
 import site.doget.mybatis.SqlSessionFactoryProvider;
 import site.doget.mybatis.mapper.DepositInfoMapper;
-import site.doget.mybatis.mapper.LoanInfoMapper;
 
 import java.util.*;
 
 public class DepositInfoService {
     private static final DepositInfoService instance = new DepositInfoService();
-    public static DepositInfoService getInstance() {return instance;}
+
+    public static DepositInfoService getInstance() {
+        return instance;
+    }
+
     private DepositInfoService() {
 
     }
@@ -28,6 +30,12 @@ public class DepositInfoService {
             List<String> labels = new ArrayList<>();
             List<DepositTypeResDto> datasets = new ArrayList<>();
 
+            Set<String> typeSet = new HashSet<String>();
+            for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
+                typeSet.add(depositInfoRawDto.getAccSbjcNm());
+            }
+            String[] depositTypeList = typeSet.toArray(new String[typeSet.size()]);
+
             Set<String> baseYmSet = new HashSet<String>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
                 baseYmSet.add(depositInfoRawDto.getBaseYm());
@@ -36,24 +44,22 @@ public class DepositInfoService {
             Arrays.sort(labelList);
             labels = List.of(labelList);
 
-            Set<String> typeSet = new HashSet<String>();
-            for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
-                typeSet.add(depositInfoRawDto.getAccSbjcNm());
-            }
-            String[] depositTypeList = typeSet.toArray(new String[typeSet.size()]);
-            Arrays.sort(depositTypeList);
             for (String depositType : depositTypeList) {
-                datasets.add(new DepositTypeResDto(depositType, new ArrayList<>(Collections.nCopies(labels.size(), 0))));
+                datasets.add(new DepositTypeResDto(depositType, new ArrayList<>()));
             }
 
+            List<Integer> cntList = new ArrayList<Integer>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
-                String type = depositInfoRawDto.getAccSbjcNm();
-                int idx = labels.indexOf(depositInfoRawDto.getBaseYm());
-                for (DepositTypeResDto dataset : datasets) {
-                    if (type.equals(dataset.getLabel())) {
-                        dataset.getData().set(idx, depositInfoRawDto.getCnt());
-                        break;
-                    }
+                cntList.add(depositInfoRawDto.getCnt());
+            }
+
+            int k = 0;
+            for (int i = 0; i < depositTypeList.length; i++) {
+                for (int j = 0; j < depositInfoRawDtoList.size() / depositTypeList.length; j++) {
+                    if (k >= cntList.size()) break;
+
+                    if (cntList.get(k) == null) datasets.get(i).getData().add(0);
+                    else datasets.get(i).getData().add(cntList.get(k++));
                 }
             }
 
@@ -68,6 +74,7 @@ public class DepositInfoService {
 
             List<String> labels = new ArrayList<>();
             List<DepositPeriodResDto> datasets = new ArrayList<>();
+
 
             Set<String> custTypeSet = new HashSet<String>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
@@ -88,7 +95,7 @@ public class DepositInfoService {
                 datasets.add(new DepositPeriodResDto(depositCustType, new ArrayList<>()));
             }
 
-            List<Integer> cntList = new ArrayList<Integer >();
+            List<Integer> cntList = new ArrayList<Integer>();
             for (DepositInfoRawDto depositInfoRawDto : depositInfoRawDtoList) {
                 cntList.add(depositInfoRawDto.getCnt());
             }
@@ -102,6 +109,37 @@ public class DepositInfoService {
             }
 
             return new DepositPeriodListResDto(labels, datasets);
+        }
+    }
+
+    public DepositStatsListResDto findDepositStatsByTermAndBankCode(BankReqDto bankReqDto) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            DepositInfoMapper depositInfoMapper = sqlSession.getMapper(DepositInfoMapper.class);
+            List<DepositInfoRawDto> depositInfoStatsRawDtoList = depositInfoMapper.findDepositStatsByTermAndBankCode(bankReqDto);
+            List<DepositInfoRawDto> depositInfoStatsModRawDtoList = depositInfoMapper.findDepositStatsModByTermAndBankCode(bankReqDto);
+
+            List<String> labels = new ArrayList<>();
+            List<DepositStatsResDto> datasets = new ArrayList<>();
+
+            for (DepositInfoRawDto depositInfoRawDto : depositInfoStatsRawDtoList) {
+                labels.add(depositInfoRawDto.getBaseYm());
+            }
+
+            String[] statsType = {"최댓값", "평균값", "중앙값", "최빈값"};
+            for (String stats : statsType) {
+                datasets.add(new DepositStatsResDto(stats, new ArrayList<>()));
+            }
+
+            for (DepositInfoRawDto depositInfoRawDto : depositInfoStatsRawDtoList) {
+                datasets.get(0).getData().add(depositInfoRawDto.getMax());
+                datasets.get(1).getData().add(depositInfoRawDto.getAvg());
+                datasets.get(2).getData().add(depositInfoRawDto.getMid());
+            }
+            for (DepositInfoRawDto depositInfoRawDto : depositInfoStatsModRawDtoList) {
+                datasets.get(3).getData().add(depositInfoRawDto.getMod());
+            }
+
+            return new DepositStatsListResDto(labels, datasets);
         }
     }
 }

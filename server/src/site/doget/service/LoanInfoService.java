@@ -3,10 +3,8 @@ package site.doget.service;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import site.doget.dto.*;
-import site.doget.dto.raw.DepositInfoRawDto;
 import site.doget.dto.raw.LoanInfoRawDto;
 import site.doget.mybatis.SqlSessionFactoryProvider;
-import site.doget.mybatis.mapper.DepositInfoMapper;
 import site.doget.mybatis.mapper.LoanInfoMapper;
 
 import java.util.*;
@@ -105,6 +103,37 @@ public class LoanInfoService {
             }
 
             return new LoanPeriodListResDto(labels, datasets);
+        }
+    }
+
+    public LoanStatsListResDto findLoanStatsByTermAndBankCode(BankReqDto bankReqDto) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            LoanInfoMapper loanInfoMapper = sqlSession.getMapper(LoanInfoMapper.class);
+            List<LoanInfoRawDto> loanInfoStatsRawDtoList = loanInfoMapper.findLoanStatsByTermAndBankCode(bankReqDto);
+            List<LoanInfoRawDto> loanInfoStatsModRawDtoList = loanInfoMapper.findLoanStatsModByTermAndBankCode(bankReqDto);
+
+            List<String> labels = new ArrayList<>();
+            List<LoanStatsResDto> datasets = new ArrayList<>();
+
+            for (LoanInfoRawDto loanInfoRawDto : loanInfoStatsRawDtoList) {
+                labels.add(loanInfoRawDto.getBaseYm());
+            }
+
+            String[] statsType =  {"최댓값", "평균값", "중앙값", "최빈값"};
+            for (String stats : statsType) {
+                datasets.add(new LoanStatsResDto(stats, new ArrayList<>()));
+            }
+
+            for (LoanInfoRawDto loanInfoStatsRawDto : loanInfoStatsRawDtoList) {
+                datasets.get(0).getData().add(loanInfoStatsRawDto.getMax());
+                datasets.get(1).getData().add(loanInfoStatsRawDto.getAvg());
+                datasets.get(2).getData().add(loanInfoStatsRawDto.getMid());
+            }
+            for (LoanInfoRawDto loanInfoStatsModRawDto : loanInfoStatsModRawDtoList) {
+                datasets.get(3).getData().add(loanInfoStatsModRawDto.getMod());
+            }
+
+            return new LoanStatsListResDto(labels, datasets);
         }
     }
 }

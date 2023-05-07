@@ -10,8 +10,8 @@ public class LoanInfoRawDto {
     private String credMrtgNm;
     private String custDscdNm;
     private Integer cnt;
-    private Integer max;
-    private Integer avg;
-    private Integer mid;
-    private Integer mod;
+    private Long max;
+    private Long avg;
+    private Long mid;
+    private Long mod;
 }
