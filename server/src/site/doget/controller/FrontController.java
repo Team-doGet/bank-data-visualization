@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@WebServlet("/*")
+@WebServlet("/api/*")
 public class FrontController extends HttpServlet {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -20,12 +20,12 @@ public class FrontController extends HttpServlet {
     private final Map<String, Controller> controllerMap = new LinkedHashMap<>();
 
     public FrontController() {
-        controllerMap.put("/income", new IncomeController());
-        controllerMap.put("/financial", new FinancialController());
-        controllerMap.put("/loan/customers", new LoanCustomerController());
-        controllerMap.put("/loan", new LoanInfoController());
-        controllerMap.put("/deposit/customers", new DepositCustomerController());
-        controllerMap.put("/deposit", new DepositInfoController());
+        controllerMap.put("/api/income", new IncomeController());
+        controllerMap.put("/api/financial", new FinancialController());
+        controllerMap.put("/api/loan/customers", new LoanCustomerController());
+        controllerMap.put("/api/loan", new LoanInfoController());
+        controllerMap.put("/api/deposit/customers", new DepositCustomerController());
+        controllerMap.put("/api/deposit", new DepositInfoController());
     }
 
     @Override
