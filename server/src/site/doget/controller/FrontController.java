@@ -8,27 +8,24 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-@WebServlet("/*")
+@WebServlet("/api/*")
 public class FrontController extends HttpServlet {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // 매핑 URL,호출될 컨트롤러
-    private final Map<String, Controller> controllerMap = new HashMap<>();
+    private final Map<String, Controller> controllerMap = new LinkedHashMap<>();
 
     public FrontController() {
-        controllerMap.put("/income", new IncomeController());
-        controllerMap.put("/financial", new FinancialController());
-        controllerMap.put("/loan/customers", new LoanCustomerController());
-        controllerMap.put("/loan/guarantee", new LoanInfoController());
-        controllerMap.put("/loan/period", new LoanInfoController());
-        controllerMap.put("/loan/stats", new LoanInfoController());
-        controllerMap.put("/deposit/customers", new DepositCustomerController());
-        controllerMap.put("/deposit/type", new DepositInfoController());
-        controllerMap.put("/deposit/period", new DepositInfoController());
-        controllerMap.put("/deposit/stats", new DepositInfoController());
+        controllerMap.put("/api/income", new IncomeController());
+        controllerMap.put("/api/financial", new FinancialController());
+        controllerMap.put("/api/loan/customers", new LoanCustomerController());
+        controllerMap.put("/api/loan", new LoanInfoController());
+        controllerMap.put("/api/deposit/customers", new DepositCustomerController());
+        controllerMap.put("/api/deposit", new DepositInfoController());
     }
 
     @Override
@@ -47,7 +44,6 @@ public class FrontController extends HttpServlet {
         response.setStatus(controllerApiResponse.getStatus());
         jsonResolver(response, controllerApiResponse.getData());
     }
-
     private Controller findController(String requestURI) {
         for (Map.Entry<String, Controller> entry : controllerMap.entrySet()) {
             if (requestURI.startsWith(entry.getKey())) {
