@@ -19,25 +19,42 @@ public class FrontController extends HttpServlet {
     private final Map<String, Controller> controllerMap = new HashMap<>();
 
     public FrontController() {
-        controllerMap.put("/banks", new BankController());
-
+        controllerMap.put("/income", new IncomeController());
+        controllerMap.put("/financial", new FinancialController());
+        controllerMap.put("/loan/customers", new LoanCustomerController());
+        controllerMap.put("/loan/guarantee", new LoanInfoController());
+        controllerMap.put("/loan/period", new LoanInfoController());
+        controllerMap.put("/loan/stats", new LoanInfoController());
+        controllerMap.put("/deposit/customers", new DepositCustomerController());
+        controllerMap.put("/deposit/type", new DepositInfoController());
+        controllerMap.put("/deposit/period", new DepositInfoController());
+        controllerMap.put("/deposit/stats", new DepositInfoController());
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
-        Controller controller = controllerMap.get(requestURI);
+        Controller controller = findController(requestURI);
         if (controller == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
         Map<String, String> paramMap = createParamMap(request);
-        ApiResponse<?> controllerApiResponse = controller.process(paramMap);
+        ApiResponse<?> controllerApiResponse = controller.process(requestURI, paramMap);
 
         response.setStatus(controllerApiResponse.getStatus());
         jsonResolver(response, controllerApiResponse.getData());
+    }
+
+    private Controller findController(String requestURI) {
+        for (Map.Entry<String, Controller> entry : controllerMap.entrySet()) {
+            if (requestURI.startsWith(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {
