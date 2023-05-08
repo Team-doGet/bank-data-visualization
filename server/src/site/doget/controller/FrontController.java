@@ -44,7 +44,6 @@ public class FrontController extends HttpServlet {
         response.setStatus(controllerApiResponse.getStatus());
         jsonResolver(response, controllerApiResponse.getData());
     }
-
     private Controller findController(String requestURI) {
         for (Map.Entry<String, Controller> entry : controllerMap.entrySet()) {
             if (requestURI.startsWith(entry.getKey())) {
