@@ -46,7 +46,6 @@ const App = () => {
         <Navigation setbankCode={setbankCode} />
         <Container>
           <Routes>
-            <Route path="/" element={<Home bankCode={bankCode} API_ROOT={API_ROOT} />}></Route>
             <Route path="/example" element={<Example />}></Route>
             <Route
               path="/loan"
@@ -64,6 +63,7 @@ const App = () => {
               path="/financial"
               element={<Financial bankCode={bankCode} API_ROOT={API_ROOT} baseDate={bankInfo.financialDate} />}
             ></Route>
+            <Route path="/*" element={<Home bankCode={bankCode} API_ROOT={API_ROOT} />}></Route>
           </Routes>
         </Container>
         <Footer />
