@@ -62,7 +62,7 @@ const BarGraph = ({ term, url, title, xLabel, yLabel }) => {
   }, [term]);
 
   return (
-    <Container fluid>
+    <Container>
       <Row className="content-page mt-4"></Row>
       <Row className="mt-4">
         <Card>

@@ -107,7 +107,9 @@ const PeriodForm = ({ baseDate, term, setTerm }) => {
                         .fill()
                         .map((_, i) =>
                           ['01', '04', '07', '10'].map((e, q) => (
-                            <option value={`${startYear + i}-${e}-01`}>{`${startYear + i}년 ${q + 1}분기`}</option>
+                            <option key={e + i} value={`${startYear + i}-${e}-01`}>{`${startYear + i}년 ${
+                              q + 1
+                            }분기`}</option>
                           ))
                         )}
                     </Form.Control>
@@ -117,7 +119,7 @@ const PeriodForm = ({ baseDate, term, setTerm }) => {
                       {Array(endYear - startYear + 1)
                         .fill()
                         .map((_, i) => (
-                          <option value={`${startYear + i}-01-01`}>{`${startYear + i}년`}</option>
+                          <option key={i} value={`${startYear + i}-01-01`}>{`${startYear + i}년`}</option>
                         ))}
                     </Form.Control>
                   )}
@@ -140,7 +142,9 @@ const PeriodForm = ({ baseDate, term, setTerm }) => {
                         .fill()
                         .map((_, i) =>
                           ['03-31', '06-30', '09-30', '12-31'].map((e, q) => (
-                            <option value={`${startYear + i}-${e}`}>{`${startYear + i}년 ${q + 1}분기`}</option>
+                            <option key={e + i} value={`${startYear + i}-${e}`}>{`${startYear + i}년 ${
+                              q + 1
+                            }분기`}</option>
                           ))
                         )}
                     </Form.Control>
@@ -150,7 +154,7 @@ const PeriodForm = ({ baseDate, term, setTerm }) => {
                       {Array(endYear - startYear + 1)
                         .fill()
                         .map((_, i) => (
-                          <option value={`${startYear + i}-12-31`}>{`${startYear + i}년`}</option>
+                          <option key={i} value={`${startYear + i}-12-31`}>{`${startYear + i}년`}</option>
                         ))}
                     </Form.Control>
                   )}
