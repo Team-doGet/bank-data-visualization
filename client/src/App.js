@@ -10,8 +10,10 @@ import Deposit from './page/Deposit';
 import Income from './page/Income';
 import Footer from './component/Footer';
 import { useEffect, useState } from 'react';
+import API_ROOT from './data/API_ROOT';
 
 const App = () => {
+  const [bankCode, setbankCode] = useState(10452);
   const [bankInfo, setBankInfo] = useState({
     name: '',
     loanDate: { min: '1900-01-01', max: '1900-01-01' },
@@ -21,7 +23,8 @@ const App = () => {
   });
   const fetchData = async () => {
     try {
-      const url = `/api/bank/info.json`; //?code=${code}`;
+      const url = `api/bank/info.json`;
+      // const url = `${API_ROOT}/bank/info?bankCode=${bankCode}`;
       const response = await fetch(url);
       const data = await response.json();
       setBankInfo({
@@ -34,20 +37,32 @@ const App = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [bankCode]);
   return (
     <div className="App wrapper">
       <BrowserRouter>
         <AppHeader />
-        <Navigation />
+        <Navigation setbankCode={setbankCode} />
         <Container>
           <Routes>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home bankCode={bankCode} API_ROOT={API_ROOT} />}></Route>
             <Route path="/example" element={<Example />}></Route>
-            <Route path="/loan" element={<Loan baseDate={bankInfo.loanDate} />}></Route>
-            <Route path="/deposit" element={<Deposit baseDate={bankInfo.depositDate} />}></Route>
-            <Route path="/income" element={<Income baseDate={bankInfo.incomeDate} />}></Route>
-            <Route path="/financial" element={<Financial baseDate={bankInfo.financialDate} />}></Route>
+            <Route
+              path="/loan"
+              element={<Loan bankCode={bankCode} API_ROOT={API_ROOT} baseDate={bankInfo.loanDate} />}
+            ></Route>
+            <Route
+              path="/deposit"
+              element={<Deposit bankCode={bankCode} API_ROOT={API_ROOT} baseDate={bankInfo.depositDate} />}
+            ></Route>
+            <Route
+              path="/income"
+              element={<Income bankCode={bankCode} API_ROOT={API_ROOT} baseDate={bankInfo.incomeDate} />}
+            ></Route>
+            <Route
+              path="/financial"
+              element={<Financial bankCode={bankCode} API_ROOT={API_ROOT} baseDate={bankInfo.financialDate} />}
+            ></Route>
           </Routes>
         </Container>
         <Footer />
