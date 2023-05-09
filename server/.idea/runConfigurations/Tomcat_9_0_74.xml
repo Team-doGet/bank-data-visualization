@@ -12,6 +12,7 @@
     </deployment>
     <server-settings>
       <option name="BASE_DIRECTORY_NAME" value="7373fa16-2204-4350-a627-baa2e0713f96" />
+      <option name="HTTP_PORT" value="8080" />
     </server-settings>
     <predefined_log_file enabled="true" id="Tomcat" />
     <predefined_log_file enabled="true" id="Tomcat Catalina" />

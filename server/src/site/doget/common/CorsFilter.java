@@ -13,7 +13,7 @@ public class CorsFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        httpResponse.setHeader("Access-Control-Allow-Origin", "data.doget.site");
+        httpResponse.setHeader("Access-Control-Allow-Origin", "data.doget.site/*");
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
         httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept");
 

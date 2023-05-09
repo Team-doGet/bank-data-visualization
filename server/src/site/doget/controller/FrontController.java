@@ -20,6 +20,7 @@ public class FrontController extends HttpServlet {
     private final Map<String, Controller> controllerMap = new LinkedHashMap<>();
 
     public FrontController() {
+        controllerMap.put("/api/bank/info", new BankInfoController());
         controllerMap.put("/api/income", new IncomeController());
         controllerMap.put("/api/financial", new FinancialController());
         controllerMap.put("/api/loan/customers", new LoanCustomerController());

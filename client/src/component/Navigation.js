@@ -2,7 +2,7 @@ import { Nav, Container, Navbar, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BANK_LIST from '../data/FINANCIAL';
 
-function Navigation() {
+function Navigation({ setbankCode }) {
   const fontStyle = { fontSize: '1.2rem' };
   const menu = [
     { title: 'Loan', to: '/loan' },
@@ -10,6 +10,9 @@ function Navigation() {
     { title: 'IncomeStatement', to: '/income' },
     { title: 'FinancialStatement', to: '/financial' },
   ];
+  const selectEvent = (e) => {
+    setbankCode(e.target.value);
+  };
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -25,10 +28,11 @@ function Navigation() {
         </Navbar.Collapse>
         <Navbar.Collapse></Navbar.Collapse>
         <Navbar.Collapse>
-          <Form.Control as="select" name="srchFinancial" title="저축은행 선택">
-            {BANK_LIST.map((e) => (
+          <Form.Control as="select" name="srchFinancial" title="저축은행 선택" onChange={selectEvent}>
+            <option value={BANK_LIST[0].code}>{BANK_LIST[0].name}</option>
+            {/* {BANK_LIST.map((e) => (
               <option value={e.code}>{e.name}</option>
-            ))}
+            ))} */}
           </Form.Control>
         </Navbar.Collapse>
       </Container>

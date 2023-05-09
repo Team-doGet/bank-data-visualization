@@ -4,7 +4,7 @@ import { Row, Card, Container, Col } from 'react-bootstrap';
 import PeriodForm from '../component/PeriodForm';
 import ColorSet from '../ColorSet';
 
-const Income = ({ baseDate }) => {
+const Income = ({ bankCode, API_ROOT, baseDate }) => {
   const incomeForm = [
     { title: '비용-수익 비교', column: ['C40000000', 'C60000000'] },
     { title: '이익-손실 추이', column: ['C57000000', 'C77000000'] },
@@ -30,7 +30,8 @@ const Income = ({ baseDate }) => {
 
   const fetchData = async (term) => {
     try {
-      const url = `/api/income.json`; //?start=${term.start}&end=${term.end}&=type${term.type}`;
+      const url = `${API_ROOT}/income?stDate=${term.start}&endDate=${term.end}&term=${term.type}&bankCode=${bankCode}`;
+
       const response = await fetch(url);
       const data = await response.json();
       setIncomeData(data);
@@ -49,7 +50,7 @@ const Income = ({ baseDate }) => {
 
   useEffect(() => {
     fetchData(term);
-  }, []);
+  }, [term, baseDate]);
 
   return (
     <Container fluid>
@@ -94,6 +95,12 @@ const Income = ({ baseDate }) => {
           </Card>
         </Row>
       ))}
+      <Row>
+        <br />
+        <br />
+        <br />
+        <br />
+      </Row>
     </Container>
   );
 };
