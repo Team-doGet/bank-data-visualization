@@ -23,8 +23,8 @@ const App = () => {
   });
   const fetchData = async () => {
     try {
-      const url = `api/bank/info.json`;
-      // const url = `${API_ROOT}/bank/info?bankCode=${bankCode}`;
+      // const url = `api/bank/info.json`;
+      const url = `${API_ROOT}/bank/info?bankCode=${bankCode}`;
       const response = await fetch(url);
       const data = await response.json();
       setBankInfo({
@@ -35,6 +35,7 @@ const App = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [bankCode]);

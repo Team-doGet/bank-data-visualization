@@ -54,8 +54,16 @@ const Financial = ({ API_ROOT, bankCode, baseDate }) => {
 
   useEffect(() => {
     fetchData(term);
-  }, [term, baseDate]);
-
+  }, [term]);
+  useEffect(() => {
+    if (term.start !== baseDate.min) {
+      setTerm({
+        start: baseDate.min,
+        end: baseDate.max,
+        type: 'yearly',
+      });
+    }
+  }, [baseDate]);
   return (
     <Container fluid>
       <Row className="content-page mt-4">

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PeriodForm from '../component/PeriodForm';
-import BubbleGraph from '../component/BubbleGraph';
 import BarGraph from '../component/BarGraph';
 import LineGraph from '../component/LineGraph';
-import MultiGraph from '../component/MultiGraph';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Card } from 'react-bootstrap';
+import DotMap from '../component/DotMap';
 
 const Loan = ({ bankCode, API_ROOT, baseDate }) => {
   const [term, setTerm] = useState({
@@ -12,6 +11,15 @@ const Loan = ({ bankCode, API_ROOT, baseDate }) => {
     end: baseDate.max,
     type: 'yearly',
   });
+  useEffect(() => {
+    if (term.start !== baseDate.min) {
+      setTerm({
+        start: baseDate.min,
+        end: baseDate.max,
+        type: 'yearly',
+      });
+    }
+  }, [baseDate]);
   return (
     <Container fluid>
       <Row className="content-page mt-4">
@@ -95,6 +103,21 @@ const Loan = ({ bankCode, API_ROOT, baseDate }) => {
         </Col>
       </Row>
 
+      <Row className="content-page mt-4"></Row>
+      <Row className="mt-4">
+        <Col>
+          <Card>
+            <Card.Header style={{ backgroundColor: '#fff' }}>
+              <h3 className="mt-2" style={{ fontWeight: 600 }}>
+                대출 고객 지역 분석
+              </h3>
+            </Card.Header>
+            <Card.Body>
+              <DotMap url={`${API_ROOT}/loan/customers/region?bankCode=${bankCode}`} term={term}></DotMap>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
       <Row>
         <br />
         <br />
