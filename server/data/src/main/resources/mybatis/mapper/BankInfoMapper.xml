@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="site.doget.data.bank.BankInfoMapper">
+    <resultMap id="BankInfoResultMap" type="site.doget.data.bank.dto.BankInfoRawDto">
+        <result property="name" column="name"/>
+        <result property="info" column="info"/>
+        <result property="min" column="min"/>
+        <result property="max" column="max"/>
+    </resultMap>
+
+    <select id="findByBankCode" resultMap="BankInfoResultMap" parameterType="string">
+        SELECT MIN(bank_name) AS name, 'incomeDate' AS info, TO_CHAR(MIN(base_ym) , 'yyyy-mm-dd') AS min, TO_CHAR(MAX(base_ym) , 'yyyy-mm-dd') AS max FROM plosdoc_table WHERE bank_code = #{bankCode}
+        UNION ALL
+        SELECT '', 'financialDate', TO_CHAR(MIN(base_ym) , 'yyyy-mm-dd') AS min, TO_CHAR(MAX(base_ym) , 'yyyy-mm-dd') AS max FROM fnnr_sttus_table WHERE bank_code = #{bankCode}
+        UNION ALL
+        SELECT '', 'loanDate', TO_CHAR(MIN(new_dt) , 'yyyy-mm-dd') AS min, TO_CHAR(MAX(new_dt) , 'yyyy-mm-dd') AS max FROM loan_info WHERE bank_code = #{bankCode}
+        UNION ALL
+        SELECT '', 'depositDate', TO_CHAR(MIN(new_dt) , 'yyyy-mm-dd') AS min, TO_CHAR(MAX(new_dt) , 'yyyy-mm-dd') AS max FROM deposit_info WHERE bank_code = #{bankCode}
+    </select>
+
+</mapper>
