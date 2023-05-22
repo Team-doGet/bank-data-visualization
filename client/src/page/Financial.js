@@ -4,7 +4,7 @@ import { Row, Card, Container, Col } from 'react-bootstrap';
 import PeriodForm from '../component/PeriodForm';
 import ColorSet from '../ColorSet';
 
-const Financial = ({ baseDate }) => {
+const Financial = ({ API_ROOT, bankCode, baseDate }) => {
   const incomeForm = [
     { title: '자산-부채-자본 비교', column: ['C10000000', 'C20000000', 'C30000000'] },
     {
@@ -35,7 +35,7 @@ const Financial = ({ baseDate }) => {
 
   const fetchData = async (term) => {
     try {
-      const url = `/api/financial.json`; //?start=${term.start}&end=${term.end}&=type${term.type}`;
+      const url = `${API_ROOT}/financial?stDate=${term.start}&endDate=${term.end}&term=${term.type}&bankCode=${bankCode}&amountType=1`;
       const response = await fetch(url);
       const data = await response.json();
       setIncomeData(data);
@@ -54,12 +54,21 @@ const Financial = ({ baseDate }) => {
 
   useEffect(() => {
     fetchData(term);
-  }, []);
-
+  }, [term]);
+  useEffect(() => {
+    if (term.start !== baseDate.min) {
+      setTerm({
+        start: baseDate.min,
+        end: baseDate.max,
+        type: 'yearly',
+      });
+    }
+  }, [baseDate]);
   return (
     <Container fluid>
       <Row className="content-page mt-4">
         <Col>
+          {/* <LoadingSpinner /> */}
           <h1 style={{ fontWeight: 600 }}>FinancialStatement</h1>
           <h6 className="text-muted">{`${baseDate.min}~${baseDate.max}`}</h6>
         </Col>
@@ -98,6 +107,12 @@ const Financial = ({ baseDate }) => {
           </Card>
         </Row>
       ))}
+      <Row>
+        <br />
+        <br />
+        <br />
+        <br />
+      </Row>
     </Container>
   );
 };

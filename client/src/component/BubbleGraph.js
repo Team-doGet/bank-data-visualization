@@ -12,7 +12,7 @@ const BubbleGraph = ({ term, url, xLabel, yLabel }) => {
 
   const fetchData = async (term) => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(`${url}&stDate=${term.start}&endDate=${term.end}&term=${term.type}`);
       const data = await response.json();
 
       setOptions({
@@ -55,7 +55,7 @@ const BubbleGraph = ({ term, url, xLabel, yLabel }) => {
 
   useEffect(() => {
     fetchData(term);
-  });
+  }, [term]);
 
   return (
     <Container fluid>

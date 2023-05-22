@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Row, Card, Container } from 'react-bootstrap';
 import ColorSet from '../ColorSet';
+import LoadingSpinner from './LoadingSpinner';
 
-const BarGraph = ({ term, url, xLabel, yLabel }) => {
+const BarGraph = ({ term, url, title, xLabel, yLabel }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [],
   });
   const [options, setOptions] = useState({ plugins: { title: { text: '' } } });
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async (term) => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(`${url}&stDate=${term.start}&endDate=${term.end}&term=${term.type}`);
       const data = await response.json();
 
       setOptions({
@@ -23,7 +25,7 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
           },
           title: {
             display: false,
-            text: data.title,
+            text: title,
           },
         },
         scales: {
@@ -48,17 +50,19 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
           ...ColorSet[i],
         })),
       });
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData(term);
-  });
+  }, [term]);
 
   return (
-    <Container fluid>
+    <Container>
       <Row className="content-page mt-4"></Row>
       <Row className="mt-4">
         <Card>
@@ -68,7 +72,13 @@ const BarGraph = ({ term, url, xLabel, yLabel }) => {
             </h3>
           </Card.Header>
           <Card.Body>
-            <Line options={options} data={data} />
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <div>
+                <Line options={options} data={data} />
+              </div>
+            )}
           </Card.Body>
         </Card>
       </Row>

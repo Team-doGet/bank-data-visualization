@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 import { Row, Card, Container } from 'react-bootstrap';
 import ColorSet from '../ColorSet';
+import LoadingSpinner from './LoadingSpinner';
 
 const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
   const [data, setData] = useState({
@@ -9,10 +10,13 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
     datasets: [],
   });
   const [options, setOptions] = useState({ plugins: { title: { text: '' } } });
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async (term) => {
+    setLoading(true);
+
     try {
-      const response = await fetch(url);
+      const response = await fetch(`${url}&stDate=${term.start}&endDate=${term.end}&term=${term.type}`);
       const data = await response.json();
 
       setOptions({
@@ -99,14 +103,16 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
           }
         }),
       });
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData(term);
-  });
+  }, [term]);
 
   return (
     <Container fluid>
@@ -119,9 +125,13 @@ const MultiGraph = ({ term, url, xLabel, yLabel1, yLabel2 }) => {
             </h3>
           </Card.Header>
           <Card.Body>
-            <div>
-              <Chart options={options} data={data} />
-            </div>
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <div>
+                <Chart options={options} data={data} />
+              </div>
+            )}
           </Card.Body>
         </Card>
       </Row>

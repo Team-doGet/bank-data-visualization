@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PeriodForm from '../component/PeriodForm';
-import BubbleGraph from '../component/BubbleGraph';
 import BarGraph from '../component/BarGraph';
 import LineGraph from '../component/LineGraph';
-import MultiGraph from '../component/MultiGraph';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Card } from 'react-bootstrap';
+import DotMap from '../component/DotMap';
 
-const Loan = ({ baseDate }) => {
+const Loan = ({ bankCode, API_ROOT, baseDate }) => {
   const [term, setTerm] = useState({
     start: baseDate.min,
     end: baseDate.max,
     type: 'yearly',
   });
+  useEffect(() => {
+    if (term.start !== baseDate.min) {
+      setTerm({
+        start: baseDate.min,
+        end: baseDate.max,
+        type: 'yearly',
+      });
+    }
+  }, [baseDate]);
   return (
     <Container fluid>
       <Row className="content-page mt-4">
@@ -23,38 +31,98 @@ const Loan = ({ baseDate }) => {
       <PeriodForm baseDate={baseDate} term={term} setTerm={setTerm} />
       <Row>
         <Col>
-          <BarGraph term={term} url="/api/loan/guarantee.json" xLabel={'년도'} yLabel={'인원 수'}></BarGraph>
+          <BarGraph
+            term={term}
+            url={`${API_ROOT}/loan/guarantee?bankCode=${bankCode}`}
+            title={`대출 종류`}
+            xLabel={'년도'}
+            yLabel={'인원 수'}
+          ></BarGraph>
         </Col>
         <Col>
-          <BarGraph term={term} url="/api/loan/customers/type.json" xLabel={'년도'} yLabel={'인원 수'}></BarGraph>
+          <BarGraph
+            term={term}
+            url={`${API_ROOT}/loan/customers/type?bankCode=${bankCode}`}
+            title={`개인·법인 구분`}
+            xLabel={'년도'}
+            yLabel={'인원 수'}
+          ></BarGraph>
         </Col>
       </Row>
       <Row>
         <Col>
-          <BarGraph term={term} url="/api/loan/period.json" xLabel={'기간'} yLabel={'인원 수'}></BarGraph>
+          <BarGraph
+            term={term}
+            url={`${API_ROOT}/loan/customers/amount?bankCode=${bankCode}`}
+            title={`금액별 인원`}
+            xLabel={'금액'}
+            yLabel={'인원 수'}
+          ></BarGraph>
         </Col>
-        <Col></Col>
+        {/* <Col>
+          <BarGraph
+            term={term}
+            url={`${API_ROOT}/loan/period?bankCode=${bankCode}`}
+            title={`대출 기간`}
+            xLabel={'기간'}
+            yLabel={'인원 수'}
+          ></BarGraph>
+        </Col>
+        <Col></Col> */}
       </Row>
 
       <Row>
         <Col>
-          <MultiGraph term={term} url="/api/loan/customers/amount.json" xLabel={'금액'} yLabel={'인원 수'}></MultiGraph>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <LineGraph term={term} url="/api/loan/stats.json" xLabel={'통계'} yLabel={'금액'}></LineGraph>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <BubbleGraph
+          {/* <MultiGraph
             term={term}
-            url="/api/loan/customers/region.json"
+            url={`${API_ROOT}/loan/customers/amount?bankCode=${bankCode}`}
+            xLabel={'금액'}
+            yLabel={'인원 수'}
+          ></MultiGraph> */}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <LineGraph
+            term={term}
+            url={`${API_ROOT}/loan/stats?bankCode=${bankCode}`}
+            title={`대출액 분석`}
+            xLabel={'통계'}
+            yLabel={'금액'}
+          ></LineGraph>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {/* <BubbleGraph
+            term={term}
+            url={`${API_ROOT}/loan/customers/region?bankCode=${bankCode}`}
             xLabel={'지역'}
             yLabel={'인원 수'}
-          ></BubbleGraph>
+          ></BubbleGraph> */}
         </Col>
+      </Row>
+
+      <Row className="content-page mt-4"></Row>
+      <Row className="mt-4">
+        <Col>
+          <Card>
+            <Card.Header style={{ backgroundColor: '#fff' }}>
+              <h3 className="mt-2" style={{ fontWeight: 600 }}>
+                대출 고객 지역 분석
+              </h3>
+            </Card.Header>
+            <Card.Body>
+              <DotMap url={`${API_ROOT}/loan/customers/region?bankCode=${bankCode}`} term={term}></DotMap>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <br />
+        <br />
+        <br />
+        <br />
       </Row>
     </Container>
   );

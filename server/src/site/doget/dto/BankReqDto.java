@@ -5,6 +5,7 @@ import site.doget.common.ValidationResult;
 import java.util.regex.Pattern;
 
 public class BankReqDto {
+
     private final String bankCode;
     private final String term;
     private final String stDate;
