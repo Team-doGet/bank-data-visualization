@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="site.doget.data.mapper.BankInfoMapper">
-    <resultMap id="BankInfoResultMap" type="site.doget.data.dto.raw.BankInfoRawDto">
+<mapper namespace="site.doget.data.bank.BankInfoMapper">
+    <resultMap id="BankInfoResultMap" type="site.doget.data.bank.dto.BankInfoRawDto">
         <result property="name" column="name"/>
         <result property="info" column="info"/>
         <result property="min" column="min"/>

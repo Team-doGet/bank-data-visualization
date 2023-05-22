@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="site.doget.data.mapper.LoanInfoMapper">
+<mapper namespace="site.doget.data.loan.LoanInfoMapper">
     <!--대출 종류별 대출건수 조회-->
-    <resultMap id="LoanGuaranteeResultMap" type="site.doget.data.dto.raw.LoanInfoRawDto">
+    <resultMap id="LoanGuaranteeResultMap" type="site.doget.data.loan.dto.LoanInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="credMrtgNm" column="cred_mrtg_nm"/>
         <result property="cnt" column="cnt"/>
     </resultMap>
     <!--대출 기간별 대출건수 조회-->
-    <resultMap id="LoanPeriodResultMap" type="site.doget.data.dto.raw.LoanInfoRawDto">
+    <resultMap id="LoanPeriodResultMap" type="site.doget.data.loan.dto.LoanInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
         <result property="cnt" column="cnt"/>
     </resultMap>
     <!--대출 대푯값 조회-->
-    <resultMap id="LoanStatsResultMap" type="site.doget.data.dto.raw.LoanInfoRawDto">
+    <resultMap id="LoanStatsResultMap" type="site.doget.data.loan.dto.LoanInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="max" column="max"/>
         <result property="avg" column="avg"/>
         <result property="mid" column="mid"/>
     </resultMap>
     <!--대출 최빈값 조회-->
-    <resultMap id="LoanStatsModResultMap" type="site.doget.data.dto.raw.LoanInfoRawDto">
+    <resultMap id="LoanStatsModResultMap" type="site.doget.data.loan.dto.LoanInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="mod" column="mod"/>
     </resultMap>

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="site.doget.data.mapper.DepositInfoMapper">
+<mapper namespace="site.doget.data.deposit.DepositInfoMapper">
     <!--예금 종류별 고객 수 조회-->
-    <resultMap id="DepositTypeResultMap" type="site.doget.data.dto.raw.DepositInfoRawDto">
+    <resultMap id="DepositTypeResultMap" type="site.doget.data.deposit.dto.DepositInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="accSbjcNm" column="acc_sbjc_nm"/>
         <result property="cnt" column="cnt"/>
     </resultMap>
     <!--예금 기간별 고객 수 조회-->
-    <resultMap id="DepositPeriodResultMap" type="site.doget.data.dto.raw.DepositInfoRawDto">
+    <resultMap id="DepositPeriodResultMap" type="site.doget.data.deposit.dto.DepositInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
         <result property="cnt" column="cnt"/>
     </resultMap>
     <!--예금 대푯값 조회-->
-    <resultMap id="DepositStatsResultMap" type="site.doget.data.dto.raw.DepositInfoRawDto">
+    <resultMap id="DepositStatsResultMap" type="site.doget.data.deposit.dto.DepositInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="max" column="max"/>
         <result property="avg" column="avg"/>
         <result property="mid" column="mid"/>
     </resultMap>
     <!--예금 최빈값 조회-->
-    <resultMap id="DepositStatsModResultMap" type="site.doget.data.dto.raw.DepositInfoRawDto">
+    <resultMap id="DepositStatsModResultMap" type="site.doget.data.deposit.dto.DepositInfoRawDto">
         <result property="baseYm" column="base_ym"/>
         <result property="mod" column="mod"/>
     </resultMap>

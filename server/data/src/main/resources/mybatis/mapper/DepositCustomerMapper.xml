@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="site.doget.data.mapper.DepositCustomerMapper">
-    <resultMap id="CustomerCountByTypeResultMap" type="site.doget.data.dto.raw.CustomerCountByTypeRawDto">
+<mapper namespace="site.doget.data.deposit.DepositCustomerMapper">
+    <resultMap id="CustomerCountByTypeResultMap" type="site.doget.data.common.dto.CustomerCountByTypeRawDto">
         <result property="newDt" column="new_dt"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
         <result property="count" column="count" javaType="int"/>
     </resultMap>
-    <resultMap id="CustomerCountByAmountResultMap" type="site.doget.data.dto.raw.CustomerCountByAmountRawDto">
+    <resultMap id="CustomerCountByAmountResultMap" type="site.doget.data.common.dto.CustomerCountByAmountRawDto">
         <result property="range" column="range"/>
         <result property="custDscdNm" column="cust_dscd_nm"/>
         <result property="count" column="count" javaType="int"/>
     </resultMap>
-    <resultMap id="CustomerCountByRegionResultMap" type="site.doget.data.dto.raw.CustomerCountByRegionRawDto">
+    <resultMap id="CustomerCountByRegionResultMap" type="site.doget.data.common.dto.CustomerCountByRegionRawDto">
         <result property="custLctplcNm" column="cust_lctplc_nm"/>
         <result property="count" column="count" javaType="int"/>
     </resultMap>
