@@ -1,6 +1,6 @@
 package site.doget.data.dto;
 
-import site.doget.common.ValidationResult;
+import site.doget.data.common.ValidationResult;
 
 public class FinancialReqDto extends BankReqDto {
     private final String amountType;
