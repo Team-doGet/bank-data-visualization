@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="site.doget.mybatis.mapper.LoanInfoMapper">
+    <!--대출 종류별 대출건수 조회-->
+    <resultMap id="LoanGuaranteeResultMap" type="site.doget.dto.raw.LoanInfoRawDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="credMrtgNm" column="cred_mrtg_nm"/>
+        <result property="cnt" column="cnt"/>
+    </resultMap>
+    <!--대출 기간별 대출건수 조회-->
+    <resultMap id="LoanPeriodResultMap" type="site.doget.dto.raw.LoanInfoRawDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="custDscdNm" column="cust_dscd_nm"/>
+        <result property="cnt" column="cnt"/>
+    </resultMap>
+    <!--대출 대푯값 조회-->
+    <resultMap id="LoanStatsResultMap" type="site.doget.dto.raw.LoanInfoRawDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="max" column="max"/>
+        <result property="avg" column="avg"/>
+        <result property="mid" column="mid"/>
+    </resultMap>
+    <!--대출 최빈값 조회-->
+    <resultMap id="LoanStatsModResultMap" type="site.doget.dto.raw.LoanInfoRawDto">
+        <result property="baseYm" column="base_ym"/>
+        <result property="mod" column="mod"/>
+    </resultMap>
+
+    <!--대출 종류별 대출건수 조회-->
+    <select id="findLoanGuaranteeByTermAndBankCode" resultMap="LoanGuaranteeResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS base_ym,</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS base_ym,</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm') AS base_ym,</if>
+        cred_mrtg_nm, count(*) as cnt
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy'),</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q'),</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm'),</if>
+        cred_mrtg_nm
+        ORDER BY cred_mrtg_nm, base_ym
+    </select>
+    <!--대출 기간별 대출건수 조회-->
+    <select id="findLoanPeriodByTermAndBankCode" resultMap="LoanPeriodResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS base_ym,</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS base_ym,</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm') AS base_ym,</if>
+        cust_dscd_nm, count(*) as cnt
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy'),</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q'),</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm'),</if>
+        cust_dscd_nm
+        ORDER BY cust_dscd_nm, base_ym
+    </select>
+    <!--대출 대푯값 조회-->
+    <select id="findLoanStatsByTermAndBankCode" resultMap="LoanStatsResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS base_ym,</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS base_ym,</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm') AS base_ym,</if>
+        MAX(new_ln_amt) as max, ROUND(AVG(new_ln_amt), 0) as avg, ROUND(MEDIAN(NEW_LN_AMT), 0) AS mid
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy')</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q')</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm')</if>
+        ORDER BY base_ym
+    </select>
+    <!--대출 최빈값 조회-->
+    <select id="findLoanStatsModByTermAndBankCode" resultMap="LoanStatsModResultMap" parameterType="map">
+        WITH new_loan_info AS (
+            SELECT
+                <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS base_ym</if>
+                <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS base_ym</if>
+                <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm') AS base_ym</if>
+                , new_ln_amt, COUNT(*) as cnt
+            FROM ( SELECT * FROM loan_info WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd'))
+            GROUP BY
+            <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy')</if>
+            <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q')</if>
+            <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm')</if>
+            ,new_ln_amt )
+
+        SELECT base_ym, new_ln_amt AS mod
+        FROM new_loan_info
+        WHERE (base_ym, cnt) IN (
+            SELECT base_ym, MAX(cnt)
+            FROM new_loan_info
+            GROUP BY base_ym
+        )
+        ORDER BY base_ym
+    </select>
+</mapper>
