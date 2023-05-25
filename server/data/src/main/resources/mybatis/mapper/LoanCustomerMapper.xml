@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="site.doget.data.loan.LoanCustomerMapper">
+    <resultMap id="CustomerCountByTypeResultMap" type="site.doget.data.common.dto.CustomerCountByTypeRawDto">
+        <result property="newDt" column="new_dt"/>
+        <result property="custDscdNm" column="cust_dscd_nm"/>
+        <result property="count" column="count" javaType="int"/>
+    </resultMap>
+    <resultMap id="CustomerCountByAmountResultMap" type="site.doget.data.common.dto.CustomerCountByAmountRawDto">
+        <result property="range" column="range"/>
+        <result property="custDscdNm" column="cust_dscd_nm"/>
+        <result property="count" column="count" javaType="int"/>
+    </resultMap>
+    <resultMap id="CustomerCountByRegionResultMap" type="site.doget.data.common.dto.CustomerCountByRegionRawDto">
+        <result property="custLctplcNm" column="cust_lctplc_nm"/>
+        <result property="count" column="count" javaType="int"/>
+    </resultMap>
+
+
+    <select id="findLoanByCustomerType" resultMap="CustomerCountByTypeResultMap" parameterType="map">
+        SELECT
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy') AS new_dt,</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q') AS new_dt,</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm') AS new_dt,</if>
+        cust_dscd_nm, COUNT(*) AS count
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY
+        <if test="term == 'yearly'">TO_CHAR(new_dt, 'yyyy'),</if>
+        <if test="term == 'quarterly'">TO_CHAR(new_dt, 'yyyy-q'),</if>
+        <if test="term == 'monthly'">TO_CHAR(new_dt, 'yyyy-mm'),</if>
+        cust_dscd_nm
+        ORDER BY new_dt
+    </select>
+
+    <select id="findLoanByAmount" resultMap="CustomerCountByAmountResultMap" parameterType="map">
+    <![CDATA[
+        WITH ranges AS (
+            SELECT 0 AS lower_bound, 1000000 AS upper_bound FROM DUAL
+            UNION ALL
+            SELECT 1000000, 2000000 FROM DUAL
+            UNION ALL
+            SELECT 2000000, 4000000 FROM DUAL
+            UNION ALL
+            SELECT 4000000, 7000000 FROM DUAL
+            UNION ALL
+            SELECT 7000000, 10000000 FROM DUAL
+            UNION ALL
+            SELECT 10000000, 20000000 FROM DUAL
+            UNION ALL
+            SELECT 20000000, 30000000 FROM DUAL
+            UNION ALL
+            SELECT 30000000, 80000000 FROM DUAL
+            UNION ALL
+            SELECT 80000000, NULL FROM DUAL
+        ),
+        all_cust_dscd_nm AS (
+             SELECT DISTINCT cust_dscd_nm
+             FROM loan_info
+        )
+        SELECT
+            CONCAT(r.lower_bound, CONCAT('~', NVL(TO_CHAR(r.upper_bound), ''))) AS range,
+            acn.cust_dscd_nm,
+            SUM(NVL(CASE
+                        WHEN l.new_ln_amt >= r.lower_bound AND (l.new_ln_amt < r.upper_bound OR r.upper_bound IS NULL) THEN 1
+                        ELSE 0
+                        END, 0)) AS count
+        FROM ranges r
+                 CROSS JOIN all_cust_dscd_nm acn
+                 LEFT JOIN loan_info l
+                           ON acn.cust_dscd_nm = l.cust_dscd_nm
+                               AND (l.new_ln_amt >= r.lower_bound AND (l.new_ln_amt < r.upper_bound OR r.upper_bound IS NULL))
+                               AND l.bank_code = #{bankCode}
+                               AND l.new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY r.lower_bound, r.upper_bound, acn.cust_dscd_nm
+        ORDER BY r.lower_bound, acn.cust_dscd_nm
+        ]]>
+    </select>
+    
+    <select id="findLoanByRegion" resultMap="CustomerCountByRegionResultMap" parameterType="map">
+        SELECT NVL(cust_lctplc_nm, '미기입') AS cust_lctplc_nm, COUNT(*) AS count
+        FROM loan_info
+        WHERE bank_code = #{bankCode} AND new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY cust_lctplc_nm
+    </select>
+
+
+
+
+</mapper>

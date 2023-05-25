@@ -23,8 +23,8 @@ const App = () => {
   });
   const fetchData = async () => {
     try {
-      const url = `api/bank/info.json`;
-      // const url = `${API_ROOT}/bank/info?bankCode=${bankCode}`;
+      // const url = `api/bank/info.json`;
+      const url = `${API_ROOT}/bank/info?bankCode=${bankCode}`;
       const response = await fetch(url);
       const data = await response.json();
       setBankInfo({
@@ -35,6 +35,7 @@ const App = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [bankCode]);
@@ -45,7 +46,6 @@ const App = () => {
         <Navigation setbankCode={setbankCode} />
         <Container>
           <Routes>
-            <Route path="/" element={<Home bankCode={bankCode} API_ROOT={API_ROOT} />}></Route>
             <Route path="/example" element={<Example />}></Route>
             <Route
               path="/loan"
@@ -63,6 +63,7 @@ const App = () => {
               path="/financial"
               element={<Financial bankCode={bankCode} API_ROOT={API_ROOT} baseDate={bankInfo.financialDate} />}
             ></Route>
+            <Route path="/*" element={<Home bankCode={bankCode} API_ROOT={API_ROOT} />}></Route>
           </Routes>
         </Container>
         <Footer />
