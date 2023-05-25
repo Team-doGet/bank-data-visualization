@@ -58,27 +58,19 @@
             SELECT 30000000, 40000000 FROM DUAL
             UNION ALL
             SELECT 40000000, NULL FROM DUAL
-        ),
-             all_cust_dscd_nm AS (
-                 SELECT DISTINCT cust_dscd_nm
-                 FROM deposit_info
-             )
+        )
         SELECT
-            CONCAT(r.lower_bound, CONCAT('~', NVL(TO_CHAR(r.upper_bound), ''))) AS range,
-            acn.cust_dscd_nm,
-            SUM(NVL(CASE
-                        WHEN d.new_dpsamt >= r.lower_bound AND (d.new_dpsamt < r.upper_bound OR r.upper_bound IS NULL) THEN 1
-                        ELSE 0
-                        END, 0)) AS count
+            r.lower_bound || '~' || NVL(TO_CHAR(r.upper_bound), '') AS range,
+            d.cust_dscd_nm,
+            COUNT(d.cust_dscd_nm) AS customer_count
         FROM ranges r
-            CROSS JOIN all_cust_dscd_nm acn
-            LEFT JOIN deposit_info d
-        ON acn.cust_dscd_nm = d.cust_dscd_nm
-            AND (d.new_dpsamt >= r.lower_bound AND (d.new_dpsamt < r.upper_bound OR r.upper_bound IS NULL))
-            AND d.bank_code = #{bankCode}
-            AND d.new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
-        GROUP BY r.lower_bound, r.upper_bound, acn.cust_dscd_nm
-        ORDER BY r.lower_bound, acn.cust_dscd_nm
+                 LEFT JOIN deposit_info d
+                           ON d.NEW_DPSAMT >= r.lower_bound
+                               AND (d.NEW_DPSAMT < r.upper_bound OR r.upper_bound IS NULL)
+                               AND d.bank_code = #{bankCode}
+                               AND d.new_dt BETWEEN TO_DATE(#{stDate}, 'yyyy-mm-dd') AND TO_DATE(#{endDate}, 'yyyy-mm-dd')
+        GROUP BY r.lower_bound, r.upper_bound, d.cust_dscd_nm
+        ORDER BY r.lower_bound, d.cust_dscd_nm
         ]]>
     </select>
 
